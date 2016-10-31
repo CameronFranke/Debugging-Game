@@ -1,0 +1,27 @@
+{"program1":
+    [
+      {"section": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {{",
+        "choices": []},
+      {"section": "string symptoms[] = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"}",
+        "choice": []},
+      {"section": "int numSymp = sizeof(symptoms)/sizeof(char);",
+        "choices": []},
+      {"section": "for(int i=0; i<numSymp; i++) {{\n    cout << i+1 << \": \" << symptoms[[i]] << \" \";   \n}",
+        "choices": []},
+      {"section": "cout << endl << \"Do you have any of these symptoms? << endl;\ncout << \"If so, enter the symptom number one at a time followed by ENTER\" << endl;\ncout << \"Enter -1 to stop\" << endl;",
+        "choices": []},
+      {"section": "int patientSymptoms[numSymp] = {{ -1 };",
+        "choices": []},
+      {"section": "int count = 0, input = 0;",
+        "choices": []},
+      {"section": "while(count < numSymp || input >= 0) {{\n    count << \":: \";\n    cin >> input;\n    patientSymptoms[count] = input;\n}",
+        "choices": []},
+      {"section": "bool result;\nint num = 0;",
+        "choices": []},
+      {"section": "for (int i=0; i<numSymp; i++) {{\n    if (patientSymptoms[i] > 0) {{\n        num+1;\n        if(symptoms[patientSymptoms[i]] == \"photophopia\")\n        result = true;\n    }\n}",
+        "choices": []},
+      {"section": "if(num > 3 && result) {{\n    cout << \"You will turn into a walker...\" << endl;\n    return 0;\n}",
+        "choices": []},
+      {"section": "cout << \"You are not infected\" << endl;\nreturn 0;"}
+    ]
+  }
