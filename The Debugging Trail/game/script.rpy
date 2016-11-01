@@ -17,16 +17,14 @@ define e = Character('eileen')
 ## The game starts here.
 
 style code_button:
-    xmaximum 1000
-    ymaximum 400
+    xmaximum 1500
+    ymaximum 700
 
-screen code_view:
+screen code:
     frame:
-        xpadding 10
-        ypadding 10
         xalign 1.0
         yalign 0.0
-        xmaximum 900
+        xmaximum 1500
         ymaximum 800
 
         viewport:
@@ -42,18 +40,25 @@ screen code_view:
                 textbutton "[code]":
                     style "code_button"
                     action Return(i)
-            #for i in range(0, 20):
-            #     textbutton "button [i]" action Return(i)
 
-screen bug_fix_menu:
+screen fix_menu:
     frame:
+        xalign 0.0
+        yalign 0.5
         vbox:
             $choices = buggyProg[code_section]["fixes"]
-            for ch in choices:
-                textbutton "{color=#ffff}[ch]{/color}"
+            for i, ch in enumerate(choices):
+                textbutton "[ch]":
+                    action Return(i)
 
 label fix_code:
-    show screen bug_fix_menu
+    $code_section = ui.interact()
+    show screen fix_menu
+
+label view_code:
+    hide fix_code
+    show screen code
+    jump fix_code
 
 label start:
     ## Show a background. This uses a placeholder by default, but you can add a
@@ -70,9 +75,11 @@ label start:
     ## These display lines of dialogue.
 
     e "Welcome to the Debugging Trail"
+    e "The purpose of this game is to help you become a better debugger."
+    e "We will show you a screen of code that contains errors. It is your job to find the bugs and fix them."
+    e "When you find a bug, click on the buggy section of code and a menu will pop up showing a list of possible fixes."
+    e "Pick the correct option to fix the code."
 
-    show screen code_view
-    $code_section = ui.interact()
-    jump fix_code
+    jump view_code
 
     return
