@@ -12,7 +12,6 @@ init python:
     code_section = 0
 
 
-
 define e = Character('eileen')
 ## The game starts here.
 
@@ -46,10 +45,13 @@ screen fix_menu:
         xalign 0.0
         yalign 0.5
         vbox:
-            $choices = buggyProg[code_section]["fixes"]
-            for i, ch in enumerate(choices):
-                textbutton "[ch]":
-                    action Return(i)
+            $choices = buggyProg[code_section]
+            if "fixes" in choices:
+                $s = choices["fixes"]
+                for i, ch in enumerate(s):
+                    textbutton "[ch]":
+                        style "code_button"
+                        action Return(i)
 
 label fix_code:
     $code_section = ui.interact()
@@ -79,6 +81,8 @@ label start:
     e "We will show you a screen of code that contains errors. It is your job to find the bugs and fix them."
     e "When you find a bug, click on the buggy section of code and a menu will pop up showing a list of possible fixes."
     e "Pick the correct option to fix the code."
+
+    hide eileen
 
     jump view_code
 
