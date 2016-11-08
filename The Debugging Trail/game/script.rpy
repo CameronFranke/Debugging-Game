@@ -10,6 +10,7 @@ init python:
     program = json.load(f)
     buggyProg = program["program1"]
     code_section = 0
+    
 
 
 define e = Character('eileen')
@@ -46,7 +47,9 @@ screen code:
                     action Return(i)
 
 screen fix_menu:
-    frame:
+     
+     frame:
+        $fixid = 0
         xalign 0.0
         yalign 0.5
         vbox:
@@ -56,12 +59,24 @@ screen fix_menu:
                 for i, ch in enumerate(s):
                     textbutton "[ch]":
                         style "code_button"
-                        action Return(i)
+                        action Jump(replace_code, i)
+
+label replace_code(fixid=0):
+    #$fixid = ui.interact()
+    python: 
+        temp = str(buggyProg[code_section]["code"])
+        buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]
+        buggyProg[code_section]["fixes"][fixid] = str(temp)
+    
+        
+    
 
 label fix_code:
     $code_section = ui.interact()
     show screen fix_menu
-
+    jump replace_code
+    
+    
 label view_code:
     hide fix_code
     show screen code
