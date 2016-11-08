@@ -10,7 +10,7 @@ init python:
     program = json.load(f)
     buggyProg = program["program1"]
     code_section = 0
-    
+
 
 
 define e = Character('eileen')
@@ -47,7 +47,6 @@ screen code:
                     action Return(i)
 
 screen fix_menu:
-     
      frame:
         xalign 0.0
         yalign 0.5
@@ -58,24 +57,24 @@ screen fix_menu:
                 for i, ch in enumerate(s):
                     textbutton "[ch]":
                         style "code_button"
-                        action Return(i)
+                        action [Hide("fix_menu"), Return(i)]
+
 
 label replace_code(fixid=0):
     $fixid = ui.interact()
-    python: 
-        temp = str(buggyProg[code_section]["code"])
-        buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]
-        buggyProg[code_section]["fixes"][fixid] = str(temp)
-    
-        
-    
+    python:
+        if "fixes" in buggyProg[code_section]:
+            temp = str(buggyProg[code_section]["code"])
+            buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]
+            buggyProg[code_section]["fixes"][fixid] = str(temp)
+
 
 label fix_code:
     $code_section = ui.interact()
     show screen fix_menu
     jump replace_code
-    
-    
+
+
 label view_code:
     hide fix_code
     show screen code
@@ -85,7 +84,7 @@ screen stress_bar:
     bar:
         pos (100, 800)
         xysize (500, 70)
-     
+
 label start:
     ## Show a background. This uses a placeholder by default, but you can add a
     ## file (named either "bg room.png" or "bg room.jpg") to the images
