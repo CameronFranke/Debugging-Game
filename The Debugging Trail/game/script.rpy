@@ -49,7 +49,6 @@ screen code:
 screen fix_menu:
      
      frame:
-        $fixid = 0
         xalign 0.0
         yalign 0.5
         vbox:
@@ -59,10 +58,10 @@ screen fix_menu:
                 for i, ch in enumerate(s):
                     textbutton "[ch]":
                         style "code_button"
-                        action Jump(replace_code, i)
+                        action Return(i)
 
 label replace_code(fixid=0):
-    #$fixid = ui.interact()
+    $fixid = ui.interact()
     python: 
         temp = str(buggyProg[code_section]["code"])
         buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]
@@ -86,9 +85,7 @@ screen stress_bar:
     bar:
         pos (100, 800)
         xysize (500, 70)
-        linear xsize -1
-        repeat
-
+     
 label start:
     ## Show a background. This uses a placeholder by default, but you can add a
     ## file (named either "bg room.png" or "bg room.jpg") to the images
