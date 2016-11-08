@@ -10,7 +10,13 @@ init python:
     program = json.load(f)
     buggyProg = program["program1"]
     code_section = 0
-
+    global stress
+    stress = 0
+    base_stress_modifier = 1
+    
+    def modify_stress():
+        global stress
+        stress = stress + base_stress_modifier
 
 
 define e = Character('eileen')
@@ -19,11 +25,6 @@ define e = Character('eileen')
 style code_button:
     xmaximum 1500
     ymaximum 700
-
-screen stress_bar:
-    bar:
-        pos (100, 800)
-        xysize (500, 70)
 
 screen code:
     frame:
@@ -60,16 +61,18 @@ screen fix_menu:
                         action [Hide("fix_menu"), Return(i)]
 
 
-label replace_code(fixid=0):
-    $fixid = ui.interact()
+label replace_code():
     python:
         if "fixes" in buggyProg[code_section]:
+            fixid = ui.interact()
             temp = str(buggyProg[code_section]["code"])
             buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]
             buggyProg[code_section]["fixes"][fixid] = str(temp)
-
+        else:
+            modify_stress()
 
 label fix_code:
+    
     $code_section = ui.interact()
     show screen fix_menu
     jump replace_code
@@ -81,15 +84,17 @@ label view_code:
     jump fix_code
 
 screen stress_bar:
-    bar:
-        pos (100, 800)
-        xysize (500, 70)
+    python:
+        ui.bar(range=100, value=stress, pos=(30, 830), xysize=(350, 50))
+
+
 
 label start:
     ## Show a background. This uses a placeholder by default, but you can add a
     ## file (named either "bg room.png" or "bg room.jpg") to the images
     ## directory to show it.
 
+    
     show screen stress_bar
 
     jump view_code
