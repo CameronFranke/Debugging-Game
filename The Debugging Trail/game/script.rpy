@@ -35,14 +35,6 @@ init python:
         if stress > 100:
             stress = 100
         
-    def take_break():
-        global stress
-        global time_penalty
-        stress = stress - break_modifier
-        time_penalty += break_duration
-        if stress < 0: 
-            stress = 0
-            
     def countdown(st, at, length=0.0):
             global time_penalty
             remaining = length - st - time_penalty
@@ -60,7 +52,21 @@ init python:
                 return Text(timestr, color="#f00", size=72), 1
             else:
                 return anim.Blink(Text(timestr, color="#f00", size=72)), None
-
+    
+    def keep_coding():
+        global section_count
+        section_count += 1
+        
+    def take_break():
+        global stress
+        global time_penalty
+        stress = stress - break_modifier
+        time_penalty += break_duration
+        if stress < 0: 
+            stress = 0
+    
+        
+    
 
 define e = Character('eileen')
 
@@ -69,8 +75,6 @@ style code_button:
     ymaximum 700
 
 screen code:
-    ##global section_count 
-    ##global lines_per_section
     frame:
         xalign 1.0
         yalign 0.0
@@ -84,7 +88,7 @@ screen code:
             side_xalign 1
 
             has vbox
-            for i, section in enumerate(buggyProg[0:section_count * lines_per_section]):
+            for i, section in enumerate(buggyProg[0: section_count * lines_per_section]):
                 $code = section["code"]
                 #text "{a=start}[code]{/a}"
                 textbutton "[code]":
@@ -131,11 +135,8 @@ screen stress_bar:
     python:
         ui.bar(range=100, value=stress, pos=(30, 830), xysize=(350, 50))
     vbox:
-    ## might want to make an imagebutton
-        textbutton "Take a break" pos(80,890) action Jump("take_break")
-        
-label take_break:
-    $take_break()
+        textbutton "Take a break" pos(80,890) action Function(take_break) xmaximum 400
+
     
 screen onscreen_timer:
     vbox:
@@ -143,16 +144,10 @@ screen onscreen_timer:
         image DynamicDisplayable(countdown,length=70)
         
 screen programmer_options:
-    vbox:
-        textbutton "Keep Coding" pos(800,830) xmaximum 300 action Jump("keep_coding")
-        textbutton "Debug Code" pos(1100,780) xmaximum 300
+    hbox:
+        textbutton "Keep Coding" xmaximum 300 ymaximum 200 action Function(keep_coding)pos(800,830)
+        textbutton "Debug Code" xmaximum 300 ymaximum 200 pos(830,830)
         
-label keep_coding:
-    python:
-        global section_count
-        global lines_per_section
-        section_count += 1
-
 label start:
     ## Show a background. This uses a placeholder by default, but you can add a
     ## file (named either "bg room.png" or "bg room.jpg") to the images
@@ -161,8 +156,6 @@ label start:
     show screen programmer_options
     show screen onscreen_timer
     show screen stress_bar
-    
-            
     
     jump view_code
 
