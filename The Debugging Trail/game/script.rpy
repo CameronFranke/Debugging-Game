@@ -72,6 +72,9 @@ init python:
             buggyProg[code_section]["fixes"][fixid]["option"] = str(temp)
         else:
             modify_stress()
+    
+    def nothing():
+        pass
         
 
 init:
@@ -92,9 +95,23 @@ screen code:
             side_xalign 1
 
             has vbox
+            $tabStops = 0
             for i, section in enumerate(buggyProg[0: section_count * lines_per_section]):
                 $code = section["code"]
+
+                $temp = 0
+                $if code == "}": temp = 1
+                
+                $code = ("    "*(tabStops - temp)) + code 
                 textbutton "[code]" style "code_line" action Return(i)
+                $tabStops += (code.count("{{"))
+                $tabStops -= (code.count("}"))
+                
+                
+            for i in range(tabStops):
+                $line = "    "*(tabStops - (i+1)) + "}"
+                
+                textbutton "[line]" style "code_line" action Function(nothing)
 
 screen fix_menu:
      frame:
@@ -151,7 +168,9 @@ screen programmer_options:
         textbutton "Debug Code":
             style "game_button"
             text_style "game_button_text"
-            
+
+##screen debug_output:
+    
 
 label start:
     ## Show a background. This uses a placeholder by default, but you can add a
