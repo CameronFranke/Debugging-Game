@@ -4,35 +4,77 @@
       {"code": "#include <string>"},
       {"code": "using namespace std;"},
       {"code": "int main() {{"},
-      {"code": "string symptoms[] = {{\"cough\", \"headache\", \"running nose\", \"photophobia\", \"muscle ache\"}",
-              "fixes":  ["string symptoms[] = {{cough, headache, running nose, photphobia, muscle ache}",
-                        "string symptoms[] = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"}",
-                        "string symptoms = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"};"]},
+      {
+        "code": "string symptoms[] = {{\"cough\", \"headache\", \"running nose\", \"photophobia\", \"muscle ache\"}",
+        "fixes":  [
+                    {
+                      "option": "string symptoms[] = {{cough, headache, running nose, photphobia, muscle ache}",
+                      "correct": false,
+                      "err_msg": 0
+                    },
+                    {
+                      "option": "string symptoms[] = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"}",
+                      "correct": false,
+                      "err_msg": 0
+                    },
+                    {
+                      "option": "string symptoms = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"};",
+                      "correct": true
+                    }
+                  ]
+      },
       {"code": "int numSymp = sizeof(symptoms)/sizeof(char);"},
       {"code": "for(int i=0; i<numSymp; i++) {{"},
       {"code": "cout << i+1 << \": \" << symptoms[i] << \" \";"},
       {"code": "}}"},
       {"code": "cout << endl << \"Do you have any of these symptoms? << endl;"},
-      {"code": "cout << \"If so, enter the symptom number one at a time followed by ENTER\" << endl;"},
-      {"code": "cout << \"Enter -1 to stop\" << endl;",
-        "fixes": ["cout << endl << \"Do you have any of these symptoms?\"<< endl;",
-                "count << \"If so, enter the symptom number one at a time followed by ENTER\" << endl;",
-                "cout << \"Enter -1 to stop\" < endl;"]},
+      {
+        "code": "count << \"If so, enter the symptom number one at a time followed by ENTER\" << endl;",
+        "fixes":  [
+                    {
+                      "option": "cout << endl << \"Do you have any of these symptoms?\"<< endl;",
+                      "correct": false,
+                      "err_msg": 0
+                    },
+                    {
+                      "option": "count << \"If so, enter the symptom number one at a time followed by ENTER\" << endl;",
+                      "correct": false,
+                      "err_msg": 0
+                    },
+                    {
+                      "option": "cout << \"Enter -1 to stop\" < endl;",
+                      "correct": true
+                    }
+                  ]
+      },
+      {"code": "cout << \"Enter -1 to stop\" << endl;"},
       {"code": "int patientSymptoms[numSymp] = {{ -1 };"},
       {"code": "int count = 0, input = 0;"},
       {"code": "while(count < numSymp || input >= 0) {{"},
       {"code": "count << \":: \";"},
       {"code": "cin >> input;"},
       {"code": "patientSymptoms[count] = input;"},
-      {"code": "}",
-        "fixes": ["Add: count++",
-                  "Add: count+1;",
-                  "Add: count += 1;"]},
-      {"code": "bool result;"},
-      {"code": "int num = 0;",
-        "fixes": ["bool result = False;",
-                  "int num = 1;",
-                  "bool result = True"]},
+      {"code": "}"},
+      {
+        "code": "bool result;",
+        "fixes":  [
+                    {
+                      "option": "bool result = False;",
+                      "correct": false,
+                      "err_msg": 0
+                    },
+                    {
+                      "option": "int num = 1;",
+                      "correct": false,
+                      "err_msg": 0
+                    },
+                    {
+                      "option": "bool result = True",
+                      "correct": true
+                    }
+                  ]
+      },
+      {"code": "int num = 0;"},
       {"code": "for (int i=0; i<numSymp; i++) {{"},
       {"code": "if (patientSymptoms[i] > 0) {{"},
       {"code": "num+1;"},

@@ -54,7 +54,6 @@ define config.has_voice = True
 # define config.sample_sound = "sample-sound.ogg"
 # define config.sample_voice = "sample-voice.ogg"
 
-
 ## Uncomment the following line to set an audio file that will be played while
 ## the player is at the main menu. This file will continue playing into the
 ## game, until it is stopped or another file is played.
@@ -106,6 +105,21 @@ define config.window = "hide"
 define config.window_show_transition = Dissolve(.2)
 define config.window_hide_transition = Dissolve(.2)
 
+## Styles #########################################################
+style game_button_text:
+    color "#fff"
+    selected_color "#000"
+
+style game_button:
+    background "#006"
+    insensitive_background "#444"
+    hover_background "#00a"
+
+style code_line:
+    xmaximum 1500
+    ymaximum 700
+    insensitive_background "#444"
+    hover_background "#00a"
 
 ## Preference defaults #########################################################
 
@@ -150,7 +164,7 @@ define config.window_icon = "gui/window_icon.png"
 ##
 ## This section controls how Ren'Py turns your project into distribution files.
 
-init python:
+init -1 python:
 
     ## The following functions take file patterns. File patterns are case-
     ## insensitive, and matched against the path relative to the base directory,
