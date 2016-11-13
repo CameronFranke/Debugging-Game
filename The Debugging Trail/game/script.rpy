@@ -63,6 +63,16 @@ init python:
         time_penalty += break_duration
         if stress < 0:
             stress = 0
+            
+    def replace_code():
+        if buggyProg[code_section]["fixes"]:
+            fixid = ui.interact()
+            temp = str(buggyProg[code_section]["code"])
+            buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]["option"]
+            buggyProg[code_section]["fixes"][fixid]["option"] = str(temp)
+        else:
+            modify_stress()
+        
 
 init:
     define e = Character('eileen')
@@ -96,24 +106,12 @@ screen fix_menu:
                 $s = choices["fixes"]
                 for i, ch in enumerate(s):
                     $code = ch["option"]
-                    textbutton "[code]" style "code_line" action [Hide("fix_menu"), Return(i)]
-
-
-label replace_code():
-    python:
-        if buggyProg[code_section]["fixes"]:
-            fixid = ui.interact()
-            temp = str(buggyProg[code_section]["code"])
-            buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]["option"]
-            buggyProg[code_section]["fixes"][fixid]["option"] = str(temp)
-        else:
-            modify_stress()
+                    textbutton "[code]" style "code_line" action [Hide("fix_menu"), Return(i)]        
 
 label fix_code:
-
     $code_section = ui.interact()
     show screen fix_menu
-    jump replace_code
+    $replace_code()
 
 
 label view_code:
@@ -148,11 +146,12 @@ screen programmer_options:
         textbutton "Keep Coding":
             style "game_button"
             text_style "game_button_text"
+            action Function(keep_coding)
 
         textbutton "Debug Code":
             style "game_button"
             text_style "game_button_text"
-            action Function(keep_coding)
+            
 
 label start:
     ## Show a background. This uses a placeholder by default, but you can add a
