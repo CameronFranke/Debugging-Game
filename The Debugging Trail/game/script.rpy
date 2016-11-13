@@ -10,7 +10,12 @@ init python:
     f = renpy.file("BuggyProgram.json")
     program = json.load(f)
     buggyProg = program["program1"]
-    code_section = 0 ## ??
+    code_section = 0 
+    
+    global errorMsgs
+    f = renpy.file("ErrorMessages.json")
+    errorMsgs = json.load(f)
+    errorMsgs = errorMsgs["error_msg"]
 
     global stress
     global time_limit
@@ -18,6 +23,9 @@ init python:
     global time_penalty
     global lines_per_section
     global section_count
+    
+    global errorMsg 
+    errorMsg = ""
 
     lines_per_section = 4
     section_count = 1
@@ -65,16 +73,41 @@ init python:
             stress = 0
             
     def replace_code():
-        if buggyProg[code_section]["fixes"]:
+        if "fixes" in  buggyProg[code_section]:
             fixid = ui.interact()
-            temp = str(buggyProg[code_section]["code"])
+            
+            oldCode = str(buggyProg[code_section]["code"])
+            olderr = str(buggyProg[code_section]["err_msg"])
+            
             buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]["option"]
-            buggyProg[code_section]["fixes"][fixid]["option"] = str(temp)
+            buggyProg[code_section]["err_msg"] = buggyProg[code_section]["fixes"][fixid]["err_msg"]
+            
+            buggyProg[code_section]["fixes"][fixid]["option"] = oldCode
+            buggyProg[code_section]["fixes"][fixid]["err_msg"] = olderr
+
         else:
             modify_stress()
-    
-    def nothing():
-        pass
+        
+    def test_code():
+        global errorMsg
+        errorMsg = "we are all gonna die"
+        
+        errorIndices = []
+        for line in buggyProg[0: section_count * lines_per_section]:
+            if "err_msg" in line:
+                errorIndices.append(line["err_msg"])
+        create_error_msg(errorIndices)
+        
+    def create_error_msg(indices):
+        global errorMsg
+        global errorMsgs
+        errorMsg = ""
+        for i in indices:
+            if i != "None":
+                errorMsg += errorMsgs[i] + "\n"
+        if errorMsg == "":
+            errorMsg = "No compile time errors"
+
         
 
 init:
@@ -102,16 +135,16 @@ screen code:
                 $temp = 0
                 $if code == "}": temp = 1
                 
-                $code = ("    "*(tabStops - temp)) + code 
+                $code = (str(i) + ".  " + "    "*(tabStops - temp)) + code 
                 textbutton "[code]" style "code_line" action Return(i)
                 $tabStops += (code.count("{{"))
                 $tabStops -= (code.count("}"))
                 
                 
-            for i in range(tabStops):
-                $line = "    "*(tabStops - (i+1)) + "}"
+            for x in range(tabStops):
+                $line = str(i + x + 1) + ". " + "    "*(tabStops - (x+1)) + "}"
                 
-                textbutton "[line]" style "code_line" action Function(nothing)
+                textbutton "[line]" style "code_line" action Function(modify_stress)
 
 screen fix_menu:
      frame:
@@ -168,8 +201,20 @@ screen programmer_options:
         textbutton "Debug Code":
             style "game_button"
             text_style "game_button_text"
+            action Function(test_code)
 
-##screen debug_output:
+screen debug_output:
+    frame:
+        xalign 1.0
+        yalign 0.0
+        xsize 1500
+        ysize 150
+
+        xpos 1920
+        ypos 800
+        
+        vbox:
+            text "[errorMsg]"
     
 
 label start:
@@ -181,6 +226,7 @@ label start:
     show screen programmer_options
     show screen onscreen_timer
     show screen stress_bar
+    show screen debug_output
 
     jump view_code
 

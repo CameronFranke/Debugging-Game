@@ -2,6 +2,6 @@
   [
     "syntax error : missing ';'",
     "syntax error : count is not defined",
-    "syntax error : missing ';'"
+    "syntax error : semantic error"
     ]
   }

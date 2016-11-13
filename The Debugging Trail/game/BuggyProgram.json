@@ -6,44 +6,42 @@
       {"code": "int main() {{"},
       {
         "code": "string symptoms[] = {{\"cough\", \"headache\", \"running nose\", \"photophobia\", \"muscle ache\"}",
+	"err_msg": 0,
         "fixes":  [
                     {
                       "option": "string symptoms[] = {{cough, headache, running nose, photphobia, muscle ache}",
-                      "correct": false,
                       "err_msg": 0
                     },
                     {
                       "option": "string symptoms[] = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"}",
-                      "correct": false,
                       "err_msg": 0
                     },
                     {
                       "option": "string symptoms = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"};",
-                      "correct": true
+		      "err_msg": "None" 
                     }
-                  ]
+                  ] 
       },
       {"code": "int numSymp = sizeof(symptoms)/sizeof(char);"},
       {"code": "for(int i=0; i<numSymp; i++) {{"},
       {"code": "cout << i+1 << \": \" << symptoms[i] << \" \";"},
-      {"code": "}}"},
+      {"code": "}"},
       {"code": "cout << endl << \"Do you have any of these symptoms? << endl;"},
       {
         "code": "count << \"If so, enter the symptom number one at a time followed by ENTER\" << endl;",
+	"err_msg": 1,
         "fixes":  [
                     {
                       "option": "cout << endl << \"Do you have any of these symptoms?\"<< endl;",
-                      "correct": false,
                       "err_msg": 0
                     },
                     {
                       "option": "count << \"If so, enter the symptom number one at a time followed by ENTER\" << endl;",
-                      "correct": false,
-                      "err_msg": 0
+                      "err_msg": 1
                     },
                     {
                       "option": "cout << \"Enter -1 to stop\" < endl;",
-                      "correct": true
+                      "err_msg": "None"
                     }
                   ]
       },
@@ -57,20 +55,19 @@
       {"code": "}"},
       {
         "code": "bool result;",
+	"err_msg": 2,
         "fixes":  [
                     {
                       "option": "bool result = False;",
-                      "correct": false,
-                      "err_msg": 0
+                      "err_msg": 1
                     },
                     {
                       "option": "int num = 1;",
-                      "correct": false,
                       "err_msg": 0
                     },
                     {
                       "option": "bool result = True",
-                      "correct": true
+                      "err_msg": "None"
                     }
                   ]
       },
@@ -82,12 +79,14 @@
       {"code": "result = true;"},
       {"code": "}"},
       {"code": "}"},
+      {"code": "}"},
       {"code": "if(num > 3 && result) {{"},
       {"code": "cout << \"You will turn into a walker...\" << endl;"},
       {"code": "return 0;"},
       {"code": "}"},
       {"code": ""},
       {"code": "cout << \"You are not infected\" << endl;"},
-      {"code": "return 0;"}
+      {"code": "return 0;"},
+      {"code": "}"}
     ]
   }
