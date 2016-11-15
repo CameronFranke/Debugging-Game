@@ -30,11 +30,13 @@ init python:
     lines_per_section = 4
     section_count = 1
     time_penalty = 0
-    time_limit = 5 ## in minutes
+    time_limit = 600 ## in seconds
     stress = 0
-    base_stress_modifier = 5
-    break_modifier = 35
-    break_duration = 10 ## time penalty in seconds
+    base_stress_modifier = 2
+    stress_per_bug = 10
+    break_modifier = 35 ## amount of stress removed by taking a break 
+    break_duration = 30 ## time penalty in seconds
+    action_duration = 3 ## time that an action takes in seconds 
 
     def modify_stress():
         global stress
@@ -72,6 +74,11 @@ init python:
         if stress < 0:
             stress = 0
             
+    def action_time_penalty(extra_time=0):
+        global time_penalty 
+        time_penalty += (action_duration + extra_time)
+            
+            
     def replace_code():
         if "fixes" in  buggyProg[code_section]:
             fixid = ui.interact()
@@ -89,8 +96,7 @@ init python:
             modify_stress()
         
     def test_code():
-        global errorMsg
-        errorMsg = "we are all gonna die"
+        global errorMsg        
         
         errorIndices = []
         for line in buggyProg[0: section_count * lines_per_section]:
@@ -98,13 +104,18 @@ init python:
                 errorIndices.append(line["err_msg"])
         create_error_msg(errorIndices)
         
+         
+        
     def create_error_msg(indices):
         global errorMsg
         global errorMsgs
+        global stress
         errorMsg = ""
         for i in indices:
             if i != "None":
                 errorMsg += errorMsgs[i] + "\n"
+                stress += stress_per_bug                ## stress is modified here because there is already a loop checking None vs error indices 
+                
         if errorMsg == "":
             errorMsg = "No compile time errors"
 
@@ -136,27 +147,28 @@ screen code:
                 $if code == "}": temp = 1
                 
                 $code = (str(i) + ".  " + "    "*(tabStops - temp)) + code 
-                textbutton "[code]" style "code_line" action Return(i)
+                textbutton "[code]" style "code_line" action [ Function(action_time_penalty), Return(i)]
                 $tabStops += (code.count("{{"))
-                $tabStops -= (code.count("}"))
+                $tabStops -= (code.count("}")) 
                 
                 
             for x in range(tabStops):
                 $line = str(i + x + 1) + ". " + "    "*(tabStops - (x+1)) + "}"
                 
-                textbutton "[line]" style "code_line" action Function(modify_stress)
+                textbutton "[line]" style "code_line" action [Function(modify_stress), Function(action_time_penalty)]
 
 screen fix_menu:
      frame:
         xalign 0.0
         yalign 0.5
         vbox:
+            ##$action_time_penalty() ## bringing up a fixe menu takes time=action_duration
             $choices = buggyProg[code_section]
             if "fixes" in choices:
                 $s = choices["fixes"]
                 for i, ch in enumerate(s):
                     $code = ch["option"]
-                    textbutton "[code]" style "code_line" action [Hide("fix_menu"), Return(i)]        
+                    textbutton "[code]" style "code_line" action [Hide("fix_menu"), Function(action_time_penalty), Return(i)]        
 
 label fix_code:
     $code_section = ui.interact()
@@ -186,7 +198,7 @@ screen stress_bar:
 screen onscreen_timer:
     vbox:
         pos(30, 30)
-        image DynamicDisplayable(countdown,length=70)
+        image DynamicDisplayable(countdown,length=time_limit)
 
 screen programmer_options:
     hbox:
@@ -196,12 +208,12 @@ screen programmer_options:
         textbutton "Keep Coding":
             style "game_button"
             text_style "game_button_text"
-            action Function(keep_coding)
+            action [Function(keep_coding), Function(action_time_penalty, extra_time=7)]
 
         textbutton "Debug Code":
             style "game_button"
             text_style "game_button_text"
-            action Function(test_code)
+            action [Function(test_code), Function(action_time_penalty, extra_time=7)]
 
 screen debug_output:
     frame:
