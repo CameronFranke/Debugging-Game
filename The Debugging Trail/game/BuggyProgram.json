@@ -18,7 +18,7 @@
                     },
                     {
                       "option": "string symptoms = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"};",
-		      "err_msg": "None"
+		      "err_msg": null
                     }
                   ]
       },
@@ -41,7 +41,7 @@
                     },
                     {
                       "option": "cout << \"Enter -1 to stop\" < endl;",
-                      "err_msg": "None"
+                      "err_msg": null
                     }
                   ]
       },

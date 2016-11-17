@@ -7,6 +7,7 @@
 *~
 *.bak
 *.saves
+*.save
 
 log.txt
 errors.txt

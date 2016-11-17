@@ -23,9 +23,12 @@ init python:
     global time_penalty
     global lines_per_section
     global section_count
-
+    global remaining
+    global status 
     global errorMsg
+    status = ""
     errorMsg = ""
+    remaining = 0
 
     lines_per_section = 4
     section_count = 1
@@ -43,9 +46,11 @@ init python:
         stress = stress + base_stress_modifier
         if stress > 100:
             stress = 100
+        check_wl_status
 
     def countdown(st, at, length=0.0):
             global time_penalty
+            global remaining 
             remaining = length - st - time_penalty
             min = int(remaining/60)
             sec = int(remaining % 60)
@@ -59,7 +64,8 @@ init python:
                 return Text(timestr, color="#fff", size=72), 1
             elif remaining > 0.0:
                 return Text(timestr, color="#f00", size=72), 1
-            else:
+            else: 
+                check_wl_status()
                 return anim.Blink(Text(timestr, color="#f00", size=72)), None
 
     def keep_coding():
@@ -93,7 +99,10 @@ init python:
 
         else:
             modify_stress()
-
+        
+        ## after a code change it is possible that win conditions have been met
+        check_wl_status()
+        
     def test_code():
         global errorMsg
 
@@ -109,13 +118,39 @@ init python:
         global errorMsgs
         global stress
         errorMsg = ""
+        
+        ################### DEBUG OUTPUT TEST #####################
+        global status
+        errorMsg = status + "\n"
+        ###########################################################:w 
+        
         for i in indices:
-            if i != "None":
+            if i != None:
                 errorMsg += errorMsgs[i] + "\n"
                 stress += stress_per_bug                ## stress is modified here because there is already a loop checking None vs error indices
 
         if errorMsg == "":
             errorMsg = "No compile time errors"
+            
+    def check_wl_status():
+        ##      win    check if all of the code is displayed
+        ##             check if all of the errors are fixed 
+        ##      loss   check if time has run out
+        ##             check if stress has reached 100
+        
+        global remaining
+        global status
+        status = "playing"
+        if section_count*lines_per_section >= len(buggyProg):
+            tag = True
+            for line in buggyProg:
+                if line["err_msg"] != None:
+                    tag = False
+            if tag:
+                status = "win"
+        
+        if stress >= 100 or remaining <= 0:
+            status = "lose"
 
 
 
