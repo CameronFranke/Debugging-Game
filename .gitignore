@@ -6,10 +6,7 @@
 *.pyo
 *~
 *.bak
-saves
-tmp
-cache
-env
+*.saves
 
 log.txt
 errors.txt
