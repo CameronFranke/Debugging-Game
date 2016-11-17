@@ -10,8 +10,8 @@ init python:
     f = renpy.file("BuggyProgram.json")
     program = json.load(f)
     buggyProg = program["program1"]
-    code_section = 0 
-    
+    code_section = 0
+
     global errorMsgs
     f = renpy.file("ErrorMessages.json")
     errorMsgs = json.load(f)
@@ -23,8 +23,8 @@ init python:
     global time_penalty
     global lines_per_section
     global section_count
-    
-    global errorMsg 
+
+    global errorMsg
     errorMsg = ""
 
     lines_per_section = 4
@@ -34,9 +34,9 @@ init python:
     stress = 0
     base_stress_modifier = 2
     stress_per_bug = 10
-    break_modifier = 35 ## amount of stress removed by taking a break 
+    break_modifier = 35 ## amount of stress removed by taking a break
     break_duration = 30 ## time penalty in seconds
-    action_duration = 3 ## time that an action takes in seconds 
+    action_duration = 3 ## time that an action takes in seconds
 
     def modify_stress():
         global stress
@@ -73,39 +73,37 @@ init python:
         time_penalty += break_duration
         if stress < 0:
             stress = 0
-            
+
     def action_time_penalty(extra_time=0):
-        global time_penalty 
+        global time_penalty
         time_penalty += (action_duration + extra_time)
-            
-            
+
     def replace_code():
         if "fixes" in  buggyProg[code_section]:
             fixid = ui.interact()
-            
+
             oldCode = str(buggyProg[code_section]["code"])
             olderr = str(buggyProg[code_section]["err_msg"])
-            
+
             buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]["option"]
             buggyProg[code_section]["err_msg"] = buggyProg[code_section]["fixes"][fixid]["err_msg"]
-            
+
             buggyProg[code_section]["fixes"][fixid]["option"] = oldCode
             buggyProg[code_section]["fixes"][fixid]["err_msg"] = olderr
 
         else:
             modify_stress()
-        
+
     def test_code():
-        global errorMsg        
-        
+        global errorMsg
+
         errorIndices = []
         for line in buggyProg[0: section_count * lines_per_section]:
             if "err_msg" in line:
                 errorIndices.append(line["err_msg"])
         create_error_msg(errorIndices)
-        
-         
-        
+
+
     def create_error_msg(indices):
         global errorMsg
         global errorMsgs
@@ -114,12 +112,12 @@ init python:
         for i in indices:
             if i != "None":
                 errorMsg += errorMsgs[i] + "\n"
-                stress += stress_per_bug                ## stress is modified here because there is already a loop checking None vs error indices 
-                
+                stress += stress_per_bug                ## stress is modified here because there is already a loop checking None vs error indices
+
         if errorMsg == "":
             errorMsg = "No compile time errors"
 
-        
+
 
 init:
     define e = Character('eileen')
@@ -145,16 +143,16 @@ screen code:
 
                 $temp = 0
                 $if code == "}": temp = 1
-                
-                $code = (str(i) + ".  " + "    "*(tabStops - temp)) + code 
+
+                $code = (str(i) + ".  " + "    "*(tabStops - temp)) + code
                 textbutton "[code]" style "code_line" action [ Function(action_time_penalty), Return(i)]
                 $tabStops += (code.count("{{"))
-                $tabStops -= (code.count("}")) 
-                
-                
+                $tabStops -= (code.count("}"))
+
+
             for x in range(tabStops):
                 $line = str(i + x + 1) + ". " + "    "*(tabStops - (x+1)) + "}"
-                
+
                 textbutton "[line]" style "code_line" action [Function(modify_stress), Function(action_time_penalty)]
 
 screen fix_menu:
@@ -168,7 +166,8 @@ screen fix_menu:
                 $s = choices["fixes"]
                 for i, ch in enumerate(s):
                     $code = ch["option"]
-                    textbutton "[code]" style "code_line" action [Hide("fix_menu"), Function(action_time_penalty), Return(i)]        
+                    textbutton "[code]" style "code_line" action [Hide("fix_menu"), Function(action_time_penalty), Return(i)]
+
 
 label fix_code:
     $code_section = ui.interact()
@@ -224,16 +223,47 @@ screen debug_output:
 
         xpos 1920
         ypos 800
-        
+
         vbox:
             text "[errorMsg]"
-    
+
 
 label start:
-    ## Show a background. This uses a placeholder by default, but you can add a
-    ## file (named either "bg room.png" or "bg room.jpg") to the images
-    ## directory to show it.
+    #instructions to play the game
+    e "Welcome to the Debugging Trail"
+
+    e  "The world is ending"
+
+    e "It is your job to save the world by creating lifesaving programs"
+
+    e "Like any programmer, you will run into bugs."
+
+    e "It is essential that you fix them for human life to continue"
+
+
+# init:
+#     define e = Character('eileen')
+#     image bg office = "office.jpg"
+
+
+label level1:
+
     scene bg office
+    with dissolve
+
+    e "To start coding press the 'Keep Coding' button"
+
+    e "The code you will write will appear on the screen but it may have bugs"
+
+    e "To compile your code press the 'compile' button"
+
+    e "Errors will show in the debug console"
+
+    e "To fix the error you can click on each line of code to get possible fixes"
+
+    e "Beware: Every action you take will cost you time and incorrect actions will increase your stress"
+
+    e "If your stress gets to high or you run out of time, you lose..."
 
     show screen programmer_options
     show screen onscreen_timer
@@ -242,4 +272,16 @@ label start:
 
     jump view_code
 
-    return
+
+label level2:
+
+
+    scene bg office
+    with dissolve
+
+    show screen programmer_options
+    show screen onscreen_timer
+    show screen stress_bar
+    show screen debug_output
+
+    jump view_code
