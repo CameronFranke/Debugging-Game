@@ -215,6 +215,7 @@ screen fix_menu:
                     textbutton "[code]" style "code_line" text_style "my_font" action [Hide("fix_menu"), Function(action_time_penalty), Return([2,i])]
 
 
+<<<<<<< Updated upstream
 label fix_code:
     $x, code_section = ui.interact()
     show screen fix_menu
@@ -225,7 +226,13 @@ label view_code:
     hide fix_code
     show screen code
     call fix_code
+<<<<<<< HEAD
 
+=======
+    
+=======
+>>>>>>> Stashed changes
+>>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
 screen stress_bar:
     vbox:
         pos (20, 850)
@@ -291,11 +298,26 @@ label view_code:
 
 label start:
     #instructions to play the game
+<<<<<<< HEAD
     with dissolve
 
     e "Welcome to the Debugging Trail"
 
     e "The world is ending"
+=======
+<<<<<<< Updated upstream
+    ##e "Welcome to the Debugging Trail"
+
+    ##e  "The world is ending"
+=======
+    scene bg pentagon
+    with dissolve
+
+    e "Welcome to the Debugging Trail"
+
+    e "The world is ending"
+>>>>>>> Stashed changes
+>>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
 
     ##e "It is your job to save the world by creating lifesaving programs"
 
@@ -311,19 +333,51 @@ label level1:
     scene bg office
     with dissolve
 
+<<<<<<< HEAD
+    e "To start coding, press the 'Keep Coding' button"
+=======
+<<<<<<< Updated upstream
+    ##e "To start coding press the 'Keep Coding' button"
+>>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
+
+    e "The code you will write will appear on the screen, but becareful for it may contain bugs"
+
+<<<<<<< HEAD
+    e "To compile your code, press the 'compile' button"
+=======
+    ##e "To compile your code press the 'compile' button"
+=======
     e "To start coding, press the 'Keep Coding' button"
 
     e "The code you will write will appear on the screen, but becareful for it may contain bugs"
 
     e "To compile your code, press the 'compile' button"
+>>>>>>> Stashed changes
+>>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
 
     e "Errors will show in the debug console"
 
+<<<<<<< HEAD
     e "To fix an error, you can click on each line of code to bring up a list of possible fixes to choose from"
+=======
+<<<<<<< Updated upstream
+    ##e "To fix the error you can click on each line of code to get possible fixes"
+>>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
+
+    e "Beware: Every action you take will cost you time, and every bug the compiler catches will cost you stress"
+
+<<<<<<< HEAD
+    e "If your stress gets to high or time runs out, we all lose..."
+=======
+    ##e "If your stress gets to high or you run out of time, you lose..."
+=======
+    e "To fix the error, you can click on each line of code to bring up a list of possible fixes to choose from"
 
     e "Beware: Every action you take will cost you time, and every bug the compiler catches will cost you stress"
 
     e "If your stress gets to high or time runs out, we all lose..."
+>>>>>>> Stashed changes
+>>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
 
     show screen programmer_options
     show screen onscreen_timer
@@ -347,9 +401,15 @@ label transition1:
 
 
     e "Congratulations! you have made the world that much safer with your bug free program"
+<<<<<<< HEAD
 
     e "However, there is still much to be done"
 
+=======
+
+    e "However, there is still much to be done"
+
+>>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
     jump level2
 
 
