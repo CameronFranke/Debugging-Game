@@ -24,7 +24,7 @@ init python:
     global lines_per_section
     global section_count
     global remaining
-    global status 
+    global status
     global errorMsg
     status = ""
     errorMsg = ""
@@ -50,7 +50,7 @@ init python:
 
     def countdown(st, at, length=0.0):
             global time_penalty
-            global remaining 
+            global remaining
             remaining = length - st - time_penalty
             min = int(remaining/60)
             sec = int(remaining % 60)
@@ -64,7 +64,7 @@ init python:
                 return Text(timestr, color="#fff", size=72), 1
             elif remaining > 0.0:
                 return Text(timestr, color="#f00", size=72), 1
-            else: 
+            else:
                 check_wl_status()
                 return anim.Blink(Text(timestr, color="#f00", size=72)), None
 
@@ -86,10 +86,10 @@ init python:
 
     def replace_code():
         if "fixes" in  buggyProg[code_section]:
-            
-            
+
+
             x = 0
-            while x != 2: 
+            while x != 2:
                 x, fixid = ui.interact()
 
 
@@ -104,10 +104,9 @@ init python:
 
         else:
             modify_stress()
-        
+
         ## after a code change it is possible that win conditions have been met
-        check_wl_status()
-        
+
     def test_code():
         global errorMsg
 
@@ -117,18 +116,20 @@ init python:
                 errorIndices.append(line["err_msg"])
         create_error_msg(errorIndices)
 
+        check_wl_status()
+
 
     def create_error_msg(indices):
         global errorMsg
         global errorMsgs
         global stress
         errorMsg = ""
-        
+
         ################### DEBUG OUTPUT TEST #####################
         global status
         errorMsg = status + "\n"
-        ###########################################################:w 
-        
+        ###########################################################:w
+
         for i in indices:
             if i != None:
                 errorMsg += errorMsgs[i] + "\n"
@@ -136,15 +137,17 @@ init python:
 
         if errorMsg == "":
             errorMsg = "No compile time errors"
-            
+
     def check_wl_status():
         ##      win    check if all of the code is displayed
-        ##             check if all of the errors are fixed 
+        ##             check if all of the errors are fixed
         ##      loss   check if time has run out
         ##             check if stress has reached 100
-        
+
         global remaining
         global status
+        renpy.call("transition1")
+
         status = "playing"
         if section_count*lines_per_section >= len(buggyProg):
             tag = True
@@ -153,7 +156,9 @@ init python:
                     tag = False
             if tag:
                 status = "win"
-        
+                renpy.call("transition1")
+
+
         if stress >= 100 or remaining <= 0:
             status = "lose"
 
@@ -162,6 +167,7 @@ init python:
 init:
     define e = Character('eileen')
     image bg office = "office.jpg"
+    image bg pentagon = "Pentagon.jpg"
 
 screen code:
     frame:
@@ -210,7 +216,6 @@ screen fix_menu:
 
 
 label fix_code:
-    
     $x, code_section = ui.interact()
     show screen fix_menu
     $replace_code()
@@ -220,12 +225,12 @@ label view_code:
     hide fix_code
     show screen code
     call fix_code
-    
+
 screen stress_bar:
     vbox:
         pos (20, 850)
         spacing 10
-        
+
         hbox:
             text "Stress: "
             bar:
@@ -272,12 +277,25 @@ screen debug_output:
         vbox:
             text "[errorMsg]"
 
+label fix_code:
+    $code_section = ui.interact()
+    show screen fix_menu
+    $replace_code()
+
+
+label view_code:
+    hide fix_code
+    show screen code
+    jump fix_code
+
 
 label start:
     #instructions to play the game
-    ##e "Welcome to the Debugging Trail"
+    with dissolve
 
-    ##e  "The world is ending"
+    e "Welcome to the Debugging Trail"
+
+    e "The world is ending"
 
     ##e "It is your job to save the world by creating lifesaving programs"
 
@@ -285,10 +303,7 @@ label start:
 
     ##e "It is essential that you fix them for human life to continue"
 
-
-# init:
-#     define e = Character('eileen')
-#     image bg office = "office.jpg"
+    jump level1
 
 
 label level1:
@@ -296,19 +311,19 @@ label level1:
     scene bg office
     with dissolve
 
-    ##e "To start coding press the 'Keep Coding' button"
+    e "To start coding, press the 'Keep Coding' button"
 
-    ##e "The code you will write will appear on the screen but it may have bugs"
+    e "The code you will write will appear on the screen, but becareful for it may contain bugs"
 
-    ##e "To compile your code press the 'compile' button"
+    e "To compile your code, press the 'compile' button"
 
-    ##e "Errors will show in the debug console"
+    e "Errors will show in the debug console"
 
-    ##e "To fix the error you can click on each line of code to get possible fixes"
+    e "To fix an error, you can click on each line of code to bring up a list of possible fixes to choose from"
 
-    ##e "Beware: Every action you take will cost you time and incorrect actions will increase your stress"
+    e "Beware: Every action you take will cost you time, and every bug the compiler catches will cost you stress"
 
-    ##e "If your stress gets to high or you run out of time, you lose..."
+    e "If your stress gets to high or time runs out, we all lose..."
 
     show screen programmer_options
     show screen onscreen_timer
@@ -318,11 +333,34 @@ label level1:
     jump view_code
 
 
-label level2:
+label transition1:
+    hide screen fix_code
+    hide screen code
+    hide screen programmer_options
+    hide screen onscreen_timer
+    hide screen stress_bar
+    hide screen debug_output
 
+    scene bg pentagon
+    with dissolve
+
+
+
+    e "Congratulations! you have made the world that much safer with your bug free program"
+
+    e "However, there is still much to be done"
+
+    jump level2
+
+
+label level2:
 
     scene bg office
     with dissolve
+
+    e "Welcome to level 2"
+
+    e "Get to work, boy"
 
     show screen programmer_options
     show screen onscreen_timer
