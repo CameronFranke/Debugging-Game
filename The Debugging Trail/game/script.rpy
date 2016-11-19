@@ -86,7 +86,12 @@ init python:
 
     def replace_code():
         if "fixes" in  buggyProg[code_section]:
-            fixid = ui.interact()
+            
+            
+            x = 0
+            while x != 2: 
+                x, fixid = ui.interact()
+
 
             oldCode = str(buggyProg[code_section]["code"])
             olderr = str(buggyProg[code_section]["err_msg"])
@@ -180,15 +185,15 @@ screen code:
                 $if code == "}": temp = 1
 
                 $code = (str(i) + ".  " + "    "*(tabStops - temp)) + code
-                textbutton "[code]" style "code_line" text_style "my_font" action [Function(action_time_penalty), Return(i)]
+                textbutton "[code]" style "code_line" text_style "my_font" action [Function(action_time_penalty), Return([1,i])]
                 $tabStops += (code.count("{{"))
                 $tabStops -= (code.count("}"))
 
 
             for x in range(tabStops):
                 $line = str(i + x + 1) + ". " + "    "*(tabStops - (x+1)) + "}"
-
                 textbutton "[line]" style "code_line" text_style "my_font" action [Function(modify_stress), Function(action_time_penalty)]
+
 
 screen fix_menu:
      frame:
@@ -201,11 +206,12 @@ screen fix_menu:
                 $s = choices["fixes"]
                 for i, ch in enumerate(s):
                     $code = ch["option"]
-                    textbutton "[code]" style "code_line" text_style "my_font" action [Hide("fix_menu"), Function(action_time_penalty), Return(i)]
+                    textbutton "[code]" style "code_line" text_style "my_font" action [Hide("fix_menu"), Function(action_time_penalty), Return([2,i])]
 
 
 label fix_code:
-    $code_section = ui.interact()
+    
+    $x, code_section = ui.interact()
     show screen fix_menu
     $replace_code()
 
@@ -213,8 +219,8 @@ label fix_code:
 label view_code:
     hide fix_code
     show screen code
-    jump fix_code
-
+    call fix_code
+    
 screen stress_bar:
     vbox:
         pos (20, 850)
