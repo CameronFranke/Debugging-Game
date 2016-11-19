@@ -7,6 +7,10 @@ init python:
     config.use_cpickle = False
     import json
     import time
+    global level 
+    global buggyProg
+    
+    level = 1
     f = renpy.file("BuggyProgram.json")
     program = json.load(f)
     buggyProg = program["program1"]
@@ -41,6 +45,22 @@ init python:
     break_duration = 30 ## time penalty in seconds
     action_duration = 3 ## time that an action takes in seconds
 
+
+    def load_level():
+        global level
+        global buggyProg
+        global section_count
+        global code_section
+        global stress
+        global time_limit
+        global remaining 
+        buggyProg = program["program" + str(level)]
+        section_count = 1
+        code_section = 0
+        stress = 0 
+        time_limit += (600 - remaining)
+        
+    
     def modify_stress():
         global stress
         stress = stress + base_stress_modifier
@@ -86,8 +106,7 @@ init python:
 
     def replace_code():
         if "fixes" in  buggyProg[code_section]:
-
-
+            
             x = 0
             while x != 2:
                 x, fixid = ui.interact()
@@ -146,7 +165,6 @@ init python:
 
         global remaining
         global status
-        renpy.call("transition1")
 
         status = "playing"
         if section_count*lines_per_section >= len(buggyProg):
@@ -162,7 +180,7 @@ init python:
         if stress >= 100 or remaining <= 0:
             status = "lose"
 
-
+        ##renpy.call("transition1")
 
 init:
     define e = Character('eileen')
@@ -214,8 +232,6 @@ screen fix_menu:
                     $code = ch["option"]
                     textbutton "[code]" style "code_line" text_style "my_font" action [Hide("fix_menu"), Function(action_time_penalty), Return([2,i])]
 
-
-<<<<<<< Updated upstream
 label fix_code:
     $x, code_section = ui.interact()
     show screen fix_menu
@@ -226,13 +242,8 @@ label view_code:
     hide fix_code
     show screen code
     call fix_code
-<<<<<<< HEAD
 
-=======
-    
-=======
->>>>>>> Stashed changes
->>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
+
 screen stress_bar:
     vbox:
         pos (20, 850)
@@ -285,7 +296,7 @@ screen debug_output:
             text "[errorMsg]"
 
 label fix_code:
-    $code_section = ui.interact()
+    $x, code_section = ui.interact()
     show screen fix_menu
     $replace_code()
 
@@ -298,26 +309,13 @@ label view_code:
 
 label start:
     #instructions to play the game
-<<<<<<< HEAD
-    with dissolve
 
-    e "Welcome to the Debugging Trail"
-
-    e "The world is ending"
-=======
-<<<<<<< Updated upstream
     ##e "Welcome to the Debugging Trail"
 
     ##e  "The world is ending"
-=======
-    scene bg pentagon
-    with dissolve
 
-    e "Welcome to the Debugging Trail"
-
-    e "The world is ending"
->>>>>>> Stashed changes
->>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
+    ## scene bg pentagon
+    ## with dissolve
 
     ##e "It is your job to save the world by creating lifesaving programs"
 
@@ -333,51 +331,40 @@ label level1:
     scene bg office
     with dissolve
 
-<<<<<<< HEAD
-    e "To start coding, press the 'Keep Coding' button"
-=======
-<<<<<<< Updated upstream
     ##e "To start coding press the 'Keep Coding' button"
->>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
 
-    e "The code you will write will appear on the screen, but becareful for it may contain bugs"
 
-<<<<<<< HEAD
-    e "To compile your code, press the 'compile' button"
-=======
+    ##e "The code you will write will appear on the screen, but becareful for it may contain bugs"
+
+
     ##e "To compile your code press the 'compile' button"
-=======
-    e "To start coding, press the 'Keep Coding' button"
 
-    e "The code you will write will appear on the screen, but becareful for it may contain bugs"
+    ##e "To start coding, press the 'Keep Coding' button"
 
-    e "To compile your code, press the 'compile' button"
->>>>>>> Stashed changes
->>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
+    ##e "The code you will write will appear on the screen, but becareful for it may contain bugs"
 
-    e "Errors will show in the debug console"
+    ##e "To compile your code, press the 'compile' button"
 
-<<<<<<< HEAD
-    e "To fix an error, you can click on each line of code to bring up a list of possible fixes to choose from"
-=======
-<<<<<<< Updated upstream
+
+    ##e "Errors will show in the debug console"
+
+
+    ##e "To fix an error, you can click on each line of code to bring up a list of possible fixes to choose from"
+
     ##e "To fix the error you can click on each line of code to get possible fixes"
->>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
 
-    e "Beware: Every action you take will cost you time, and every bug the compiler catches will cost you stress"
 
-<<<<<<< HEAD
-    e "If your stress gets to high or time runs out, we all lose..."
-=======
+    ##e "Beware: Every action you take will cost you time, and every bug the compiler catches will cost you stress"
+
+
     ##e "If your stress gets to high or you run out of time, you lose..."
-=======
-    e "To fix the error, you can click on each line of code to bring up a list of possible fixes to choose from"
 
-    e "Beware: Every action you take will cost you time, and every bug the compiler catches will cost you stress"
+    ##e "To fix the error, you can click on each line of code to bring up a list of possible fixes to choose from"
 
-    e "If your stress gets to high or time runs out, we all lose..."
->>>>>>> Stashed changes
->>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
+    ##e "Beware: Every action you take will cost you time, and every bug the compiler catches will cost you stress"
+
+    ##e "If your stress gets to high or time runs out, we all lose..."
+
 
     show screen programmer_options
     show screen onscreen_timer
@@ -401,15 +388,9 @@ label transition1:
 
 
     e "Congratulations! you have made the world that much safer with your bug free program"
-<<<<<<< HEAD
 
     e "However, there is still much to be done"
 
-=======
-
-    e "However, there is still much to be done"
-
->>>>>>> 9684646af5592815dda5cfd76ff4bd0c287ce414
     jump level2
 
 
@@ -420,8 +401,15 @@ label level2:
 
     e "Welcome to level 2"
 
-    e "Get to work, boy"
+    e "Get to work!"
 
+    python:
+        global level 
+        level += 1
+        load_level()
+    hide screen onscreen_timer
+    show screen onscreen_timer
+        
     show screen programmer_options
     show screen onscreen_timer
     show screen stress_bar

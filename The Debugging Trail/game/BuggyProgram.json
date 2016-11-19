@@ -66,7 +66,7 @@
                       "err_msg": 0
                     },
                     {
-                      "option": "bool result = True",
+                      "option": "bool result = True;",
                       "err_msg": null
                     }
                   ]
@@ -117,7 +117,7 @@
                     }
                   ]},
       {"code": "srand(time(NULL));", "err_msg": null},
-      {"code": "cout << \"Initiating Earth Protection protocols. There are \" << missleStockpile << \" missles in our arsenal.\n\"", "err_msg": null},
+      {"code": "cout << \"Initiating Earth Protection protocols. There are \" << missleStockpile << \" missles in our arsenal.\"", "err_msg": null},
       {"code": "for(int year = 0; year < yearsToDefendEarth; year++); {{",
         "err_msg": 0,
         "fixes":  [
@@ -174,7 +174,7 @@
                       "err_msg": 0
                     }
                   ]},
-      {"code":"cout << \"Aliens encountered on day \" << day + 1 << \" of year \" << year + 1 << \". Firing missle!\n\";", "err_msg": null},
+      {"code":"cout << \"Aliens encountered on day \" << day + 1 << \" of year \" << year + 1 << \". Firing missle!\";", "err_msg": null},
       {
         "code":"missleStockpile-;",
         "err_msg": 0,
@@ -195,8 +195,8 @@
       {"code": "cout << missleStockpile << \" missles left.\n\";", "err_msg": null },
       {"code": "}" , "err_msg": null},
       {"code": "else {{", "err_msg": null},
-      {"code": "cout << \"Aliens encountered on day \" << day + 1 << \" of year \" << year + 1 << \"\n\";", "err_msg": null},
-      {"code": "cout << \"We are out of missles! The aliens have taken over the earth!\n\";", "err_msg": null},
+      {"code": "cout << \"Aliens encountered on day \" << day + 1 << \" of year \" << year + 1 << \"\";", "err_msg": null},
+      {"code": "cout << \"We are out of missles! The aliens have taken over the earth!\";", "err_msg": null},
       {"code": "return 0;", "err_msg": null},
       {"code": "}", "err_msg": null},
       {"code": "}", "err_msg": null},

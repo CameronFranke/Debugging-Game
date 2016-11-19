@@ -108,7 +108,7 @@ define config.window_hide_transition = Dissolve(.2)
 ## Styles #########################################################
 
 style my_font:
-    size 24
+    size 22
 
 style game_button_text:
     color "#fff"
