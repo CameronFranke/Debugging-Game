@@ -103,16 +103,14 @@
         "fixes":  [
                     {
                       "option": "bool aliens;",
-                      "correct": true
+                      "err_msg": null
                     },
                     {
                       "option": "bool alien;",
-                      "correct": false,
                       "err_msg": 0
                     },
                     {
                       "option": "bool alies;",
-                      "correct": false,
                       "err_msg": 0
                     }
                   ]},
