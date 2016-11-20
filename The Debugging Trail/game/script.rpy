@@ -180,7 +180,7 @@ screen code:
                 $if code == "}": temp = 1
 
                 $code = (str(i) + ".  " + "    "*(tabStops - temp)) + code
-                textbutton "[code]" style "code_line" action [ Function(action_time_penalty), Return(i)]
+                textbutton "[code]" style "code_line" text_style "my_font" action [Function(action_time_penalty), Return(i)]
                 $tabStops += (code.count("{{"))
                 $tabStops -= (code.count("}"))
 
@@ -188,7 +188,7 @@ screen code:
             for x in range(tabStops):
                 $line = str(i + x + 1) + ". " + "    "*(tabStops - (x+1)) + "}"
 
-                textbutton "[line]" style "code_line" action [Function(modify_stress), Function(action_time_penalty)]
+                textbutton "[line]" style "code_line" text_style "my_font" action [Function(modify_stress), Function(action_time_penalty)]
 
 screen fix_menu:
      frame:
@@ -201,7 +201,7 @@ screen fix_menu:
                 $s = choices["fixes"]
                 for i, ch in enumerate(s):
                     $code = ch["option"]
-                    textbutton "[code]" style "code_line" action [Hide("fix_menu"), Function(action_time_penalty), Return(i)]
+                    textbutton "[code]" style "code_line" text_style "my_font" action [Hide("fix_menu"), Function(action_time_penalty), Return(i)]
 
 
 label fix_code:

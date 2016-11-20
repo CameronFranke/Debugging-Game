@@ -106,6 +106,10 @@ define config.window_show_transition = Dissolve(.2)
 define config.window_hide_transition = Dissolve(.2)
 
 ## Styles #########################################################
+
+style my_font:
+    size 24
+
 style game_button_text:
     color "#fff"
     selected_color "#000"
@@ -120,6 +124,7 @@ style code_line:
     ymaximum 700
     insensitive_background "#444"
     hover_background "#00a"
+    
 
 ## Preference defaults #########################################################
 
