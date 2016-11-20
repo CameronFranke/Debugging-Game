@@ -217,17 +217,21 @@ label view_code:
 
 screen stress_bar:
     vbox:
-        pos (30, 950)
+        pos (20, 850)
         spacing 10
-        bar:
-            range 100
-            value stress
-            xysize (350, 50)
+        
+        hbox:
+            text "Stress: "
+            bar:
+                range 100
+                value stress
+                xysize (250, 50)
 
         textbutton "Take a break":
             style "game_button"
             text_style "game_button_text"
             action Function(take_break)
+            pos(70,0)
 
 screen onscreen_timer:
     vbox:
@@ -265,15 +269,15 @@ screen debug_output:
 
 label start:
     #instructions to play the game
-    e "Welcome to the Debugging Trail"
+    ##e "Welcome to the Debugging Trail"
 
-    e  "The world is ending"
+    ##e  "The world is ending"
 
-    e "It is your job to save the world by creating lifesaving programs"
+    ##e "It is your job to save the world by creating lifesaving programs"
 
-    e "Like any programmer, you will run into bugs."
+    ##e "Like any programmer, you will run into bugs."
 
-    e "It is essential that you fix them for human life to continue"
+    ##e "It is essential that you fix them for human life to continue"
 
 
 # init:
@@ -286,19 +290,19 @@ label level1:
     scene bg office
     with dissolve
 
-    e "To start coding press the 'Keep Coding' button"
+    ##e "To start coding press the 'Keep Coding' button"
 
-    e "The code you will write will appear on the screen but it may have bugs"
+    ##e "The code you will write will appear on the screen but it may have bugs"
 
-    e "To compile your code press the 'compile' button"
+    ##e "To compile your code press the 'compile' button"
 
-    e "Errors will show in the debug console"
+    ##e "Errors will show in the debug console"
 
-    e "To fix the error you can click on each line of code to get possible fixes"
+    ##e "To fix the error you can click on each line of code to get possible fixes"
 
-    e "Beware: Every action you take will cost you time and incorrect actions will increase your stress"
+    ##e "Beware: Every action you take will cost you time and incorrect actions will increase your stress"
 
-    e "If your stress gets to high or you run out of time, you lose..."
+    ##e "If your stress gets to high or you run out of time, you lose..."
 
     show screen programmer_options
     show screen onscreen_timer
