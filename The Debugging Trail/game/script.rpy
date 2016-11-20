@@ -149,12 +149,14 @@ init python:
         ################### DEBUG OUTPUT TEST #####################
         global status
         errorMsg = status + "\n"
-        ###########################################################:w
+        ###########################################################
 
         for i in indices:
             if i != None:
-                errorMsg += errorMsgs[i] + "\n"
-                stress += stress_per_bug                ## stress is modified here because there is already a loop checking None vs error indices
+                temp = errorMsgs[i]
+                if "delayed" not in temp or section_count*lines_per_section >= len(buggyProg):
+                    errorMsg += temp + "\n"
+                    stress += stress_per_bug                ## stress is modified here because there is already a loop checking None vs error indices
 
         if errorMsg == "":
             errorMsg = "No compile time errors"

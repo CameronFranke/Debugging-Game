@@ -191,9 +191,7 @@
       {"code": "}", "err_msg": null},
       {"code": "}", "err_msg": null},
       {"code": "}", "err_msg": null},
-      {"code": "}", "err_msg": null},
       {"code": "cout << \"Earth Protection Successful! Humans are safe!\";", "err_msg": null},
       {"code": "}", "err_msg": null}
     ]
-
   }
