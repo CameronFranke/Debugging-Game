@@ -1,7 +1,23 @@
 {"error_msg":
   [
-    "syntax error : missing ';'",
-    "syntax error : count is not defined",
-    "syntax error : semantic error"
+    "0error : line should be preceeded by ';'",
+    "1error : count is not defined",
+    "2error : semantic error",
+    "3error : expression did not evaluate to a constant",
+    "4error : invalid assignment, cannot assign array to string",
+    "5error : illegal use of operator '<<'",
+    "6error : undefined operator '<'",
+    "7delayed warning : variable 'result' accessed before initialization", 
+    "8thought : hmm... this output isn't right, the boss won't be happy...",
+    "9error : attempting to access uninitialized variable",
+    "10error : cannot assign boolean value 'True' to char",
+    "11error : unidentified token 'bowl'",
+    "12error : incorrect use of '+' operator",
+    "13error : syntax error",
+    "14error : expecting ')'",
+    "15error : 'if' statement requires conditional expression",
+    "16error : expecting operand",
+    "17warning : expression produces no side effect",
+    "18warning : found ';' after loop expression"
     ]
   }

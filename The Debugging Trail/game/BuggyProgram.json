@@ -1,4 +1,4 @@
-{"program1":
+{"program2":
     [
       {"code": "#include <iostream>", "err_msg": null},
       {"code": "#include <string>", "err_msg": null},
@@ -10,14 +10,14 @@
         "fixes":  [
                     {
                       "option": "string symptoms[] = {{cough, headache, running nose, photphobia, muscle ache}",
-                      "err_msg": 0
+                      "err_msg": 3
                     },
                     {
-                      "option": "string symptoms[] = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"}",
-                      "err_msg": 0
+                      "option": "string symptoms = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"}",
+                      "err_msg": 4
                     },
                     {
-                      "option": "string symptoms = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"};",
+                      "option": "string symptoms[] = {{\"cough\", \"headache\", \"running nose\", \"photphobia\", \"muscle ache\"};",
 		      "err_msg": null
                     }
                   ]
@@ -29,19 +29,19 @@
       {"code": "cout << endl << \"Do you have any of these symptoms? << endl;", "err_msg": null},
       {
         "code": "count << \"If so, enter the symptom number one at a time followed by ENTER\" << endl;",
-	"err_msg": 1,
+	"err_msg": 5,
         "fixes":  [
                     {
-                      "option": "cout << endl << \"Do you have any of these symptoms?\"<< endl;",
-                      "err_msg": 0
-                    },
-                    {
-                      "option": "count << \"If so, enter the symptom number one at a time followed by ENTER\" << endl;",
-                      "err_msg": 1
-                    },
-                    {
-                      "option": "cout << \"Enter -1 to stop\" < endl;",
+                      "option": "cout << \"If so, enter the symptom number one at a time followed by ENTER\" << endl;",
                       "err_msg": null
+                    },
+                    {
+                      "option": "count << \"If so, enter the symptom number one at a time followed by ENTER\" << endl",
+                      "err_msg": 5
+                    },
+                    {
+                      "option": "cout < \"If so, enter the symptom number one at a time followed by ENTER\" < endl;",
+                      "err_msg": 6
                     }
                   ]
       },
@@ -55,19 +55,19 @@
       {"code": "}", "err_msg": null},
       {
         "code": "bool result;",
-	"err_msg": 2,
+	"err_msg": 7,
         "fixes":  [
                     {
                       "option": "bool result = False;",
-                      "err_msg": 1
+                      "err_msg": null
                     },
                     {
-                      "option": "int num = 1;",
-                      "err_msg": 0
+                      "option": "result = False;",
+                      "err_msg": 9
                     },
                     {
                       "option": "bool result = True;",
-                      "err_msg": null
+                      "err_msg": 8
                     }
                   ]
       },
@@ -89,7 +89,7 @@
       {"code": "return 0;", "err_msg": null},
       {"code": "}", "err_msg": null}
     ],
-    "program2": [
+    "program1": [
       {"code": "#include <iostream>", "err_msg": null},
       {"code": "#include <string>", "err_msg": null},
       {"code": "#include <time>", "err_msg": null},
@@ -106,49 +106,45 @@
                       "err_msg": null
                     },
                     {
-                      "option": "bool alien;",
-                      "err_msg": 0
+                      "option": "char aliens = True;",
+                      "err_msg": 10
                     },
                     {
-                      "option": "bool alies;",
-                      "err_msg": 0
+                      "option": "bowl aliens;",
+                      "err_msg": 11
                     }
                   ]},
       {"code": "srand(time(NULL));", "err_msg": null},
-      {"code": "cout << \"Initiating Earth Protection protocols. There are \" << missleStockpile << \" missles in our arsenal.\"", "err_msg": null},
+      {"code": "cout << \"Initiating Earth Protection protocols. There are \" << missleStockpile << \" missles in our arsenal.\";", "err_msg": null},
       {"code": "for(int year = 0; year < yearsToDefendEarth; year++); {{",
-        "err_msg": 0,
+        "err_msg": 18,
         "fixes":  [
                     {
                       "option": "for(int year = 0; year < yearsToDefendEarth; year++) {{",
                       "err_msg": null
                     },
                     {
-                      "option": "for(int year = 0; year <= yearsToDefendEarth; year++) {{",
-                      "err_msg": 0
+                      "option": "for(int year = 0: year < yearsToDefendEarth, year++) {{",
+                      "err_msg": 13
                     },
                     {
                       "option": "for(int year = 0; year < yearsToDefendEarth; year+) {{",
-                      "err_msg": 0
+                      "err_msg": 12
                     }
                   ]},
-      {"code": "if (probabilityOfAliensAttacking > 98) {{",
-        "err_msg": 0,
+      {"code": "if (probabilityOfAliensAttackin > 98) {{",
+        "err_msg": 9,
         "fixes":  [
                     {
                       "option": "if (probabilityOfAliensAttacking > 98) {{",
                       "err_msg": null
                     },
                     {
-                      "option": "if (probabilityOfAliensAttacking > 98) {{",
-                      "err_msg": 0
-                    },
-                    {
-                      "option": "if (probabilityOfAliensAttacking > 98) {{",
-                      "err_msg": 0
+                      "option": "if (probabilityOfAliensAttacking > 98 {{",
+                      "err_msg": 14
                     }
                   ]},
-      {"code":"aliens = true;", "err_msg": 0},
+      {"code":"aliens = true;", "err_msg": null},
       {"code":"}", "err_msg": null},
       {"code":"else {{", "err_msg": null},
       {
@@ -156,41 +152,37 @@
       {"code":"}", "err_msg": null},
       {"code":"if(aliens) {{", "err_msg": null},
       {
-        "code":"if(missleStockpile > 0) {{",
-        "err_msg": 0,
+        "code":"if (missleStockpile = 0) {{",
+        "err_msg": 15,
         "fixes":  [
                     {
-                      "option": "if(missleStockpile < 0) {{",
+                      "option": "if (missleStockpile > 0) {{",
                       "err_msg": null
                     },
                     {
-                      "option": "if(misleStockpile > 0) {{",
-                      "err_msg": 0
-                    },
-                    {
-                      "option": "if(missleStockpile > 1) {{",
-                      "err_msg": 0
+                      "option": "if (misleStockpile > 0) {{",
+                      "err_msg": 9
                     }
                   ]},
       {"code":"cout << \"Aliens encountered on day \" << day + 1 << \" of year \" << year + 1 << \". Firing missle!\";", "err_msg": null},
       {
         "code":"missleStockpile-;",
-        "err_msg": 0,
+        "err_msg": 16,
         "fixes":  [
                     {
                       "option": "missleStoclpile-;",
-                      "err_msg": 0
+                      "err_msg": 9
                     },
                     {
                       "option": "missleStockpile--;",
                       "err_msg": null
                     },
                     {
-                      "option": "missleStockpile--",
-                      "err_msg": 0
+                      "option": "missleStockpile-1",
+                      "err_msg": 17
                     }
                   ]},
-      {"code": "cout << missleStockpile << \" missles left.\n\";", "err_msg": null },
+      {"code": "cout << missleStockpile << \" missles left.\";", "err_msg": null },
       {"code": "}" , "err_msg": null},
       {"code": "else {{", "err_msg": null},
       {"code": "cout << \"Aliens encountered on day \" << day + 1 << \" of year \" << year + 1 << \"\";", "err_msg": null},

@@ -53,7 +53,9 @@ init python:
         global code_section
         global stress
         global time_limit
-        global remaining 
+        global remaining
+        global status
+        status = "playing"
         buggyProg = program["program" + str(level)]
         section_count = 1
         code_section = 0
@@ -130,7 +132,7 @@ init python:
         global errorMsg
 
         errorIndices = []
-        for line in buggyProg[0: section_count * lines_per_section]:
+        for line in buggyProg[0: (section_count * lines_per_section)]:
             if "err_msg" in line:
                 errorIndices.append(line["err_msg"])
         create_error_msg(errorIndices)
