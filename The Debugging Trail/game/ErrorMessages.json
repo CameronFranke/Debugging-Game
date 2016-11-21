@@ -23,7 +23,7 @@
     "20error : infinite loop detected",
     "21error : illegal operator 'or'",
     "22thought : Hmm... This seems to always be true",
-    "23delay[39]thought : Hmm... This result doesn't make sense. What if missile is zero?",
+    "23delayed[39] thought : Hmm... This result doesn't make sense. What if missile is zero?",
     "24delayed[10] thought : damn... I'm a 10Xer..."
     ]
   }
