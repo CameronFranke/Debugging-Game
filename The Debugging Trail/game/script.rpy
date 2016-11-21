@@ -9,11 +9,13 @@ init python:
     import time
     global level 
     global buggyProg
+    global current_thought
+    current_thought = ""
     
     level = 1
     f = renpy.file("BuggyProgram.json")
     program = json.load(f)
-    buggyProg = program["program3"]
+    buggyProg = program["program2"]
     code_section = 0
 
     global errorMsgs
@@ -151,8 +153,9 @@ init python:
         global errorMsg
         global errorMsgs
         global stress
+        global current_thought
         errorMsg = ""
-
+        current_thought = ""
         ################### DEBUG OUTPUT TEST #####################
         global status
         errorMsg = status + "\n"
@@ -181,16 +184,27 @@ init python:
                     else: 
                         delayIndex = int(delayIndex)
                     
-                if "delayed" not in temp: 
+                if "delayed" not in temp:
+                    if "thought" in temp:
+                        set_inner_thought(temp)
+                        continue 
                     errorMsg += temp + "\n"
                     stress += stress_per_bug                ## stress is modified here because there is already a loop checking None vs error indices
                     
                 elif "delayed" in temp:
                     if delayIndex <= (section_count * lines_per_section):
-                        errorMsg += temp.replace("delayed", "") + "\n"
+                        temp = temp.replace("delayed", "")
+                        if "thought" in temp:
+                            set_inner_thought(temp)
+                            continue
+                        errorMsg += temp + "\n"
 
         if errorMsg == "":
             errorMsg = "No compile time errors"
+            
+    def set_inner_thought(string):
+        global current_thought
+        current_thought = string.replace("thought : ", "")
 
     def check_wl_status():
         ##      win    check if all of the code is displayed
@@ -344,6 +358,12 @@ label view_code:
     show screen code
     jump fix_code
 
+screen inner_thought:
+    vbox:
+        pos (40,550)
+        xmaximum 350
+        text "[current_thought]"
+
 
 label start:
     #instructions to play the game
@@ -408,9 +428,10 @@ label level1:
     show screen onscreen_timer
     show screen stress_bar
     show screen debug_output
+    show screen inner_thought
 
     jump view_code
-
+    
 
 label transition1:
     hide screen fix_code
