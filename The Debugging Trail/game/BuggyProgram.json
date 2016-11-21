@@ -1,4 +1,4 @@
-{"program2":
+{"program3":
     [
       {"code": "#include <iostream>", "err_msg": null},
       {"code": "#include <string>", "err_msg": null},
@@ -89,6 +89,10 @@
       {"code": "return 0;", "err_msg": null},
       {"code": "}", "err_msg": null}
     ],
+
+
+
+
     "program1": [
       {"code": "#include <iostream>", "err_msg": null},
       {"code": "#include <string>", "err_msg": null},
@@ -194,14 +198,18 @@
       {"code": "cout << \"Earth Protection Successful! Humans are safe!\";", "err_msg": null},
       {"code": "}", "err_msg": null}
     ],
-    "program3": [
+
+
+
+    "program2": [
       {"code": "#include <iostream>", "err_msg": null},
       {"code": "#include <string>", "err_msg": null},
       {"code": "using namespace std;", "err_msg": null},
       {"code": "int main() {{", "err_msg": null},
-      {"code": "int city;", 
-		"err_msg": 19,
-		"fixes": [
+      {
+        "code": "int city;",
+		    "err_msg": 19,
+		    "fixes": [
                     {
                       "option": "city, missles;",
                       "err_msg": 9
@@ -219,23 +227,24 @@
       {"code": "int zombies = 20;", "err_msg": null},
       {"code": "int totalmissiles = 10;", "err_msg": null},
       {"code": "bool badperson = false;", "err_msg": null},
-      
+
       {"code": "cout << \"A zombie outbreak has occurred!! This program will send out missiles to the city that you provide.\" << endl;", "err_msg": null},
       {"code": "cout << \"Decide carefully, some cities have not been overrun with enough zombies to warrant such an attack\" << endl;"},
       {"code": "cout << endl << \"There are \" << zombies << \" total zombies.\" << endl;", "err_msg": null},
 
       {"code": "while (zombies > 0) {{", "err_msg": null},
-      
+
       {"code": "cout << endl << \"The cities with the most zombies are:\" << endl;", "err_msg": null},
       {"code": "cout << \"(1) DC, (2) San Jose, (3) Denver, (4) New York City, and (5) Austin.\" << endl;", "err_msg": null},
       {"code": "cout << \"The cities with the least zombies are:\";", "err_msg": null},
       {"code": "cout << \"(6) Pasadena, (7) Springfield, (8) Sunnyvale, (9) Topeka, and (10) Ann Arbor.\" << endl;", "err_msg": null},
       {"code": "cout << \"Where would you like to send the first missile?\";", "err_msg": null},
-      
+
       {"code": "while(cin >> city) {{", "err_msg": null},
-      {"code": "if(city > 10 && city < 1) {{", 
-		"err_msg": 20,
-		"fixes": [
+      {
+        "code": "if(city > 10 && city < 1) {{",
+        "err_msg": 22,
+		    "fixes": [
                     {
                       "option": "if(city > 10 or city < 1) {{",
                       "err_msg": 21
@@ -249,41 +258,80 @@
                       "err_msg": null
                     }
                   ]},
-
       {"code": "cout << endl << \"invalid input\";", "err_msg": null},
       {"code": "cout << endl << \"Choose a city number: \";", "err_msg": null},
       {"code": "}", "err_msg": null},
       {"code": "else break;", "err_msg": null},
       {"code": "}", "err_msg": null},
-      
       {"code": "if (city < 6) {{", "err_msg": null},
       {"code": "cout << endl << \"Good choice, you have 10 total missiles, how many missiles would you like to send?\";", "err_msg": null},
       {"code": "cout << endl << \"missiles to fire: \";", "err_msg": null},
-
       {"code": "while(cin >> missiles) {{", "err_msg": null},
-      {"code": "if(missiles > 10 || missiles < 1) {{", "err_msg": null},
+      {
+        "code": "if(missiles < 10 || missiles > 1) {{",
+        "err_msg": 20,
+    		"fixes": [
+                        {
+                          "option": "if(missiles > 10 && missiles < 1) {{",
+                          "err_msg": 22
+                        },
+                        {
+                          "option": "if(missiles > 10 || missiles < 1) {{",
+                          "err_msg": null
+                        },
+                        {
+                          "option": "if(missiles > 10 || missiles <= 1) {{",
+                          "err_msg": 8
+                        }
+                      ]},
       {"code": "cout << endl << \"invalid input\";", "err_msg": null},
       {"code": "cout << endl << \"missiles to fire: \";", "err_msg": null},
       {"code": "}", "err_msg": null},
       {"code": "else break;", "err_msg": null},
       {"code": "}", "err_msg": null},
-      
       {"code": "totalmissiles -= missiles;", "err_msg": null},
       {"code": "cout << endl << \"total missiles: \" << totalmissiles;", "err_msg": null},
-      
-      {"code": "", "err_msg": null},
-      
-      {"code": "zombies -= 1;", "err_msg": null},
-      {"code": "}", "err_msg": null},
-      {"code": "else {{", "err_msg": null},
+      {"code": "if (missiles > 1) {{","err_msg": null},
       {"code": "zombies = zombies/2;", "err_msg": null},
+      {"code": "}", "err_msg": null},
+      {
+        "code": "else {{",
+        "err_msg": 23,
+        "fixes": [
+                        {
+                          "option": "else if(missiles == 1) {{",
+                          "err_msg": null
+                        },
+                        {
+                          "option": "else if(missiles == 0) {{",
+                          "err_msg": 8
+                        },
+                        {
+                          "option": "else if(missiles < 0) {{",
+                          "err_msg": 8
+                        }
+                      ]},
+      {"code": "zombies -= 1;", "err_msg": null},
+
       {"code": "}", "err_msg": null},
       {"code": "cout << endl << \"zombies left: \" << zombies;", "err_msg": null},
       {"code": "}", "err_msg": null},
       {"code": " else {{", "err_msg": null},
       {"code": "cout << endl << \"You are not fit to be running this program - you shouldn't use your missiles on low zombie areas!\";", "err_msg": null},
       {"code": "badperson = true;", "err_msg": null},
-      {"code": "while (badperson) {{", "err_msg": null},
+      {
+        "code": "while (badperson) {{",
+        "err_msg": 20,
+        "fixes": [
+                        {
+                          "option": "if (badperson) {{",
+                          "err_msg": null
+                        },
+                        {
+                          "option": "while (!badperson) {{",
+                          "err_msg": 8
+                        }
+                      ]},
       {"code": "cout << endl << \"Shame\";", "err_msg": null},
       {"code": "}", "err_msg": null},
       {"code": "}", "err_msg": null},
