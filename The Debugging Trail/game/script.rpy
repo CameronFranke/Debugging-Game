@@ -115,9 +115,18 @@ init python:
 
             oldCode = str(buggyProg[code_section]["code"])
             olderr = str(buggyProg[code_section]["err_msg"])
-
+                        
+            if olderr is not None and olderr != "None":        ## casting to int fixes read error after 
+                olderr = int(olderr)                            ## a round of ressignment 
+            else: olderr = None
+            
+            temp = buggyProg[code_section]["fixes"][fixid]["err_msg"]
+            if temp is not None and temp != "None":
+                temp = int(temp)
+            else: temp = None
+                
             buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]["option"]
-            buggyProg[code_section]["err_msg"] = buggyProg[code_section]["fixes"][fixid]["err_msg"]
+            buggyProg[code_section]["err_msg"] = temp
 
             buggyProg[code_section]["fixes"][fixid]["option"] = oldCode
             buggyProg[code_section]["fixes"][fixid]["err_msg"] = olderr

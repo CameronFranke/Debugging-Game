@@ -21,7 +21,7 @@
     "18warning : found ';' after loop expression",
     "19delayed[15] error : attempting to access uninitialized variable",
     "20error : infinite loop detected",
-    "21error : illegal operator 'or'",
+    "21error : illegal operator 'or'"
 
 
     ]
