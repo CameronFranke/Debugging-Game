@@ -7,7 +7,7 @@
     "4error : invalid assignment, cannot assign array to string",
     "5error : illegal use of operator '<<'",
     "6error : undefined operator '<'",
-    "7delayed[] warning : variable 'result' accessed before initialization", 
+    "7delayed[] warning : variable 'result' accessed before initialization",
     "8thought : hmm... this output isn't right, the boss won't be happy...",
     "9error : attempting to access uninitialized variable",
     "10error : cannot assign boolean value 'True' to char",
@@ -22,8 +22,8 @@
     "19delayed[15] error : attempting to access uninitialized variable",
     "20error : infinite loop detected",
     "21error : illegal operator 'or'",
-    "22delayed[10] thought : damn... I'm a 10Xer..."
-
-
-    ]  
+    "22thought : Hmm... This seems to always be true",
+    "23delay[39]thought : Hmm... This result doesn't make sense. What if missile is zero?",
+    "24delayed[10] thought : damn... I'm a 10Xer..."
+    ]
   }
