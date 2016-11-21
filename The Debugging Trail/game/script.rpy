@@ -13,7 +13,7 @@ init python:
     level = 1
     f = renpy.file("BuggyProgram.json")
     program = json.load(f)
-    buggyProg = program["program1"]
+    buggyProg = program["program3"]
     code_section = 0
 
     global errorMsgs
@@ -113,7 +113,6 @@ init python:
             while x != 2:
                 x, fixid = ui.interact()
 
-
             oldCode = str(buggyProg[code_section]["code"])
             olderr = str(buggyProg[code_section]["err_msg"])
 
@@ -125,7 +124,6 @@ init python:
 
         else:
             modify_stress()
-
         ## after a code change it is possible that win conditions have been met
 
     def test_code():
@@ -154,9 +152,33 @@ init python:
         for i in indices:
             if i != None:
                 temp = errorMsgs[i]
-                if "delayed" not in temp or section_count*lines_per_section >= len(buggyProg):
+                delayIndex = 0
+                if "delayed" in temp:
+                    delayIndex = ""
+                    readFlag = False
+                    
+                    for x in temp:
+                        if x == "[":
+                            readFlag = True
+                            continue
+                        if x == "]":
+                            break
+                        if readFlag:
+                            delayIndex += x
+                            
+                    temp = temp.replace("[" + delayIndex + "]" ,"")    
+                    if delayIndex == "": 
+                        delayIndex = len(buggyProg)
+                    else: 
+                        delayIndex = int(delayIndex)
+                    
+                if "delayed" not in temp: 
                     errorMsg += temp + "\n"
                     stress += stress_per_bug                ## stress is modified here because there is already a loop checking None vs error indices
+                    
+                elif "delayed" in temp:
+                    if delayIndex <= (section_count * lines_per_section):
+                        errorMsg += temp.replace("delayed", "") + "\n"
 
         if errorMsg == "":
             errorMsg = "No compile time errors"
@@ -211,15 +233,18 @@ screen code:
 
                 $temp = 0
                 $if code == "}": temp = 1
-
-                $code = (str(i) + ".  " + "    "*(tabStops - temp)) + code
+                $num = str(i)
+                $if i <= 9: num = "  " + num
+                $code = (num + ".  " + "    "*(tabStops - temp)) + code
                 textbutton "[code]" style "code_line" text_style "my_font" action [Function(action_time_penalty), Return([1,i])]
                 $tabStops += (code.count("{{"))
                 $tabStops -= (code.count("}"))
 
 
             for x in range(tabStops):
-                $line = str(i + x + 1) + ". " + "    "*(tabStops - (x+1)) + "}"
+                $pad = ""
+                $if i + x + 1 <= 9: pad = "  "
+                $line = pad + str(i + x + 1) + ". " + "    "*(tabStops - (x+1)) + "}"
                 textbutton "[line]" style "code_line" text_style "my_font" action [Function(modify_stress), Function(action_time_penalty)]
 
 

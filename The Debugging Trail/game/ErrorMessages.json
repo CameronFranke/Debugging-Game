@@ -7,7 +7,7 @@
     "4error : invalid assignment, cannot assign array to string",
     "5error : illegal use of operator '<<'",
     "6error : undefined operator '<'",
-    "7delayed warning : variable 'result' accessed before initialization", 
+    "7delayed[] warning : variable 'result' accessed before initialization", 
     "8thought : hmm... this output isn't right, the boss won't be happy...",
     "9error : attempting to access uninitialized variable",
     "10error : cannot assign boolean value 'True' to char",
@@ -18,6 +18,11 @@
     "15error : 'if' statement requires conditional expression",
     "16error : expecting operand",
     "17warning : expression produces no side effect",
-    "18warning : found ';' after loop expression"
+    "18warning : found ';' after loop expression",
+    "19delayed[15] error : attempting to access uninitialized variable",
+    "20error : infinite loop detected",
+    "21error : illegal operator 'or'",
+
+
     ]
   }
