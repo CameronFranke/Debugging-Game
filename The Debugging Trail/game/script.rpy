@@ -3,20 +3,20 @@
 ## Declare characters used by this game. The color argument colorizes the name
 ## of the character.
 
-init python:
+init -1 python:
     config.use_cpickle = False
     import json
     import time
-    global level 
+    global level
     global buggyProg
     global current_thought
+    global program
     current_thought = ""
-    
+
     level = 1
+    code_section = 0
     f = renpy.file("BuggyProgram.json")
     program = json.load(f)
-    buggyProg = program["program2"]
-    code_section = 0
 
     global errorMsgs
     f = renpy.file("ErrorMessages.json")
@@ -61,10 +61,10 @@ init python:
         buggyProg = program["program" + str(level)]
         section_count = 1
         code_section = 0
-        stress = 0 
+        stress = 0
         time_limit += (600 - remaining)
-        
-    
+
+
     def modify_stress():
         global stress
         stress = stress + base_stress_modifier
@@ -110,23 +110,23 @@ init python:
 
     def replace_code():
         if "fixes" in  buggyProg[code_section]:
-            
+
             x = 0
             while x != 2:
                 x, fixid = ui.interact()
 
             oldCode = str(buggyProg[code_section]["code"])
             olderr = str(buggyProg[code_section]["err_msg"])
-                        
-            if olderr is not None and olderr != "None":        ## casting to int fixes read error after 
-                olderr = int(olderr)                            ## a round of ressignment 
+
+            if olderr is not None and olderr != "None":        ## casting to int fixes read error after
+                olderr = int(olderr)                            ## a round of ressignment
             else: olderr = None
-            
+
             temp = buggyProg[code_section]["fixes"][fixid]["err_msg"]
             if temp is not None and temp != "None":
                 temp = int(temp)
             else: temp = None
-                
+
             buggyProg[code_section]["code"] = buggyProg[code_section]["fixes"][fixid]["option"]
             buggyProg[code_section]["err_msg"] = temp
 
@@ -168,7 +168,7 @@ init python:
                 if "delayed" in temp:
                     delayIndex = ""
                     readFlag = False
-                    
+
                     for x in temp:
                         if x == "[":
                             readFlag = True
@@ -177,20 +177,20 @@ init python:
                             break
                         if readFlag:
                             delayIndex += x
-                            
-                    temp = temp.replace("[" + delayIndex + "]" ,"")    
-                    if delayIndex == "": 
+
+                    temp = temp.replace("[" + delayIndex + "]" ,"")
+                    if delayIndex == "":
                         delayIndex = len(buggyProg)
-                    else: 
+                    else:
                         delayIndex = int(delayIndex)
-                    
+
                 if "delayed" not in temp:
                     if "thought" in temp:
                         set_inner_thought(temp)
-                        continue 
+                        continue
                     errorMsg += temp + "\n"
                     stress += stress_per_bug                ## stress is modified here because there is already a loop checking None vs error indices
-                    
+
                 elif "delayed" in temp:
                     if delayIndex <= (section_count * lines_per_section):
                         temp = temp.replace("delayed", "")
@@ -201,7 +201,7 @@ init python:
 
         if errorMsg == "":
             errorMsg = "No compile time errors"
-            
+
     def set_inner_thought(string):
         global current_thought
         current_thought = string.replace("thought : ", "")
@@ -219,15 +219,16 @@ init python:
         if section_count*lines_per_section >= len(buggyProg):
             tag = True
             for line in buggyProg:
-                if line["err_msg"] != None:
+                if line["err_msg"] != "None" and line["err_msg"] != None:
                     tag = False
             if tag:
                 status = "win"
-                renpy.call("transition1")
+                renpy.jump("transition{}".format(level))
 
 
         if stress >= 100 or remaining <= 0:
             status = "lose"
+            renpy.jump("lose")
 
         ##renpy.call("transition1")
 
@@ -293,7 +294,7 @@ label fix_code:
 label view_code:
     hide fix_code
     show screen code
-    call fix_code
+    jump fix_code
 
 
 screen stress_bar:
@@ -344,8 +345,15 @@ screen debug_output:
         xpos 1920
         ypos 800
 
-        vbox:
-            text "[errorMsg]"
+        xmaximum 1500
+        ymaximum 150
+        viewport:
+            draggable False
+            mousewheel True
+            scrollbars "vertical"
+            side_xalign 1
+            vbox:
+                text "[errorMsg]" style "my_font"
 
 label fix_code:
     $x, code_section = ui.interact()
@@ -381,13 +389,14 @@ label start:
 
     ##e "It is essential that you fix them for human life to continue"
 
-    jump level1
+    call level1
 
 
 label level1:
 
     scene bg office
     with dissolve
+    $load_level()
 
     ##e "To start coding press the 'Keep Coding' button"
 
@@ -431,15 +440,11 @@ label level1:
     show screen inner_thought
 
     jump view_code
-    
+
 
 label transition1:
-    hide screen fix_code
-    hide screen code
-    hide screen programmer_options
-    hide screen onscreen_timer
-    hide screen stress_bar
-    hide screen debug_output
+    hide window
+    hide screen inner_thought
 
     scene bg pentagon
     with dissolve
@@ -450,11 +455,15 @@ label transition1:
 
     e "However, there is still much to be done"
 
-    jump level2
+    python:
+        global level
+        level += 1
+
+    call level2
 
 
 label level2:
-
+    $load_level()
     scene bg office
     with dissolve
 
@@ -462,16 +471,92 @@ label level2:
 
     e "Get to work!"
 
-    python:
-        global level 
-        level += 1
-        load_level()
     hide screen onscreen_timer
     show screen onscreen_timer
-        
+
     show screen programmer_options
     show screen onscreen_timer
     show screen stress_bar
     show screen debug_output
 
     jump view_code
+
+label transition2:
+    hide screen onscreen_timer
+    hide screen inner_thought
+    hide screen programmer_options
+    hide screen onscreen_timer
+    hide screen stress_bar
+    hide screen debug_output
+    hide screen code
+
+    scene bg pentagon
+    with dissolve
+
+    e "Congratulations! you have made the world that much safer with your bug free program"
+
+    e "However, there is still much to be done"
+
+    python:
+        global level
+        level += 1
+
+
+    jump level3
+
+label level3:
+    $load_level()
+    scene bg office
+    with dissolve
+
+    e "Welcome to level 3"
+
+    e "Get to work!"
+
+    hide screen onscreen_timer
+    show screen onscreen_timer
+
+    show screen programmer_options
+    show screen onscreen_timer
+    show screen stress_bar
+    show screen debug_output
+
+    jump view_code
+
+label transition3:
+    hide window
+    hide screen inner_thought
+
+    scene bg pentagon
+    with dissolve
+
+    e "Congratulations! You beat the game!"
+
+    jump end
+
+label lose:
+    hide screen onscreen_timer
+    hide screen inner_thought
+    hide screen programmer_options
+    hide screen onscreen_timer
+    hide screen stress_bar
+    hide screen debug_output
+    hide screen code
+
+    scene bg pentagon
+    with dissolve
+
+    e "Sorry, you lost"
+
+    menu:
+        "This is the menu"
+
+        "Play again":
+            return
+
+        "quit":
+            jump end
+
+    jump end
+
+label end:
