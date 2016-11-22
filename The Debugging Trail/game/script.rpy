@@ -39,7 +39,7 @@ init -1 python:
     lines_per_section = 4
     section_count = 1
     time_penalty = 0
-    time_limit = 600 ## in seconds
+    time_limit = 0 ## in seconds
     stress = 0
     base_stress_modifier = 2
     stress_per_bug = 10
@@ -156,11 +156,7 @@ init -1 python:
         global current_thought
         errorMsg = ""
         current_thought = ""
-        ################### DEBUG OUTPUT TEST #####################
-        global status
-        errorMsg = status + "\n"
-        ###########################################################
-
+        
         for i in indices:
             if i != None:
                 temp = errorMsgs[i]
