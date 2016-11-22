@@ -219,7 +219,7 @@ init -1 python:
         if section_count*lines_per_section >= len(buggyProg):
             tag = True
             for line in buggyProg:
-                if line["err_msg"] != "None" and line["err_msg"] != None:
+                if "err_msg" in line and line["err_msg"] != "None" and line["err_msg"] != None:
                     tag = False
             if tag:
                 status = "win"
@@ -231,6 +231,23 @@ init -1 python:
             renpy.jump("lose")
 
         ##renpy.call("transition1")
+
+    def hide_all():
+        renpy.hide_screen("onscreen_timer")
+        renpy.hide_screen("inner_thought")
+        renpy.hide_screen("programmer_options")
+        renpy.hide_screen("onscreen_timer")
+        renpy.hide_screen("stress_bar")
+        renpy.hide_screen("debug_output")
+        renpy.hide_screen("code")
+
+    def show_all():
+        renpy.show_screen("programmer_options")
+        renpy.show_screen("onscreen_timer")
+        renpy.show_screen("stress_bar")
+        renpy.show_screen("debug_output")
+        renpy.show_screen("inner_thought")
+
 
 init:
     define e = Character('eileen')
@@ -433,18 +450,13 @@ label level1:
     ##e "If your stress gets to high or time runs out, we all lose..."
 
 
-    show screen programmer_options
-    show screen onscreen_timer
-    show screen stress_bar
-    show screen debug_output
-    show screen inner_thought
+    $show_all()
 
     jump view_code
 
 
 label transition1:
-    hide window
-    hide screen inner_thought
+    $hide_all()
 
     scene bg pentagon
     with dissolve
@@ -474,21 +486,12 @@ label level2:
     hide screen onscreen_timer
     show screen onscreen_timer
 
-    show screen programmer_options
-    show screen onscreen_timer
-    show screen stress_bar
-    show screen debug_output
+    $show_all()
 
     jump view_code
 
 label transition2:
-    hide screen onscreen_timer
-    hide screen inner_thought
-    hide screen programmer_options
-    hide screen onscreen_timer
-    hide screen stress_bar
-    hide screen debug_output
-    hide screen code
+    $hide_all()
 
     scene bg pentagon
     with dissolve
@@ -516,16 +519,12 @@ label level3:
     hide screen onscreen_timer
     show screen onscreen_timer
 
-    show screen programmer_options
-    show screen onscreen_timer
-    show screen stress_bar
-    show screen debug_output
+    $show_all()
 
     jump view_code
 
 label transition3:
-    hide window
-    hide screen inner_thought
+    $hide_screens()
 
     scene bg pentagon
     with dissolve
@@ -535,14 +534,7 @@ label transition3:
     jump end
 
 label lose:
-    hide screen onscreen_timer
-    hide screen inner_thought
-    hide screen programmer_options
-    hide screen onscreen_timer
-    hide screen stress_bar
-    hide screen debug_output
-    hide screen code
-
+    $hide_all()
     scene bg pentagon
     with dissolve
 
@@ -560,3 +552,4 @@ label lose:
     jump end
 
 label end:
+    $renpy.full_restart()
