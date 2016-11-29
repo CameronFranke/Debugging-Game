@@ -57,6 +57,8 @@ init -1 python:
         global time_limit
         global remaining
         global status
+        global errorMsg
+        errorMsg = ""
         status = "playing"
         buggyProg = program["program" + str(level)]
         section_count = 1
@@ -156,7 +158,7 @@ init -1 python:
         global current_thought
         errorMsg = ""
         current_thought = ""
-        
+
         for i in indices:
             if i != None:
                 temp = errorMsgs[i]
@@ -388,19 +390,18 @@ screen inner_thought:
 
 label start:
     #instructions to play the game
+    scene bg pentagon
+    with dissolve
 
-    ##e "Welcome to the Debugging Trail"
+    e "Welcome to the Debugging Trail"
 
-    ##e  "The world is ending"
+    e  "The world is ending" 
 
-    ## scene bg pentagon
-    ## with dissolve
+    e "It is your job to save the world by creating lifesaving programs"
 
-    ##e "It is your job to save the world by creating lifesaving programs"
+    e "Like any programmer, you will run into bugs."
 
-    ##e "Like any programmer, you will run into bugs."
-
-    ##e "It is essential that you fix them for human life to continue"
+    e "It is essential that you fix them for human life to continue"
 
     call level1
 
@@ -411,39 +412,21 @@ label level1:
     with dissolve
     $load_level()
 
-    ##e "To start coding press the 'Keep Coding' button"
+    e "To start coding press the 'Keep Coding' button"
 
+    e "The code you will write will appear on the screen, but be careful because it may contain bugs"
 
-    ##e "The code you will write will appear on the screen, but becareful for it may contain bugs"
+    e "To compile your code press the 'Debug' button. You can do this as many times as you want."
 
+    e "Errors will show in the debug console"
 
-    ##e "To compile your code press the 'compile' button"
+    e "To fix an error, you can click on line of code that you think needs to be fixed and a list of possible code fixes will pop up"
 
-    ##e "To start coding, press the 'Keep Coding' button"
+    e "Click the fix that you think is right and it will replace the incorrect code automatically"
 
-    ##e "The code you will write will appear on the screen, but becareful for it may contain bugs"
+    e "Beware: Every action you take will cost you time, and every bug the compiler catches will increase your stress"
 
-    ##e "To compile your code, press the 'compile' button"
-
-
-    ##e "Errors will show in the debug console"
-
-
-    ##e "To fix an error, you can click on each line of code to bring up a list of possible fixes to choose from"
-
-    ##e "To fix the error you can click on each line of code to get possible fixes"
-
-
-    ##e "Beware: Every action you take will cost you time, and every bug the compiler catches will cost you stress"
-
-
-    ##e "If your stress gets to high or you run out of time, you lose..."
-
-    ##e "To fix the error, you can click on each line of code to bring up a list of possible fixes to choose from"
-
-    ##e "Beware: Every action you take will cost you time, and every bug the compiler catches will cost you stress"
-
-    ##e "If your stress gets to high or time runs out, we all lose..."
+    e "If your stress gets to high or you run out of time, you lose..."
 
 
     $show_all()
@@ -456,8 +439,6 @@ label transition1:
 
     scene bg pentagon
     with dissolve
-
-
 
     e "Congratulations! you have made the world that much safer with your bug free program"
 
