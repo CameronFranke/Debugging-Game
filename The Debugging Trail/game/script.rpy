@@ -205,11 +205,6 @@ init -1 python:
         current_thought = string.replace("thought : ", "")
 
     def check_wl_status():
-        ##      win    check if all of the code is displayed
-        ##             check if all of the errors are fixed
-        ##      loss   check if time has run out
-        ##             check if stress has reached 100
-
         global remaining
         global status
 
@@ -254,6 +249,8 @@ init:
 
 screen code:
     frame:
+        xpos 1880
+        ypos 30
         xalign 1.0
         yalign 0.0
         xmaximum 1500
@@ -314,41 +311,44 @@ label view_code:
 
 screen stress_bar:
     vbox:
-        pos (20, 850)
+        pos (20, 150)
         spacing 10
-
         hbox:
             text "Stress: "
             bar:
                 range 100
                 value stress
-                xysize (250, 50)
+                xysize (200, 50)
+        
+
+screen onscreen_timer:
+    vbox:
+        pos(110, 30)
+        image DynamicDisplayable(countdown,length=time_limit)
+
+screen programmer_options:
+    vbox:
+        xalign 0.5
+        pos (200,240)
+        spacing 10
+        
+        textbutton "Debug Code":
+            style "game_button"
+            text_style "game_button_text"
+            action [Function(test_code), Function(action_time_penalty, extra_time=7)]
+        
+        textbutton "Keep Coding":
+            pos (0,20)
+            style "game_button"
+            text_style "game_button_text"
+            action [Function(keep_coding), Function(action_time_penalty, extra_time=7)]
 
         textbutton "Take a break":
             style "game_button"
             text_style "game_button_text"
             action Function(take_break)
-            pos(70,0)
+            pos(0,40)
 
-screen onscreen_timer:
-    vbox:
-        pos(30, 30)
-        image DynamicDisplayable(countdown,length=time_limit)
-
-screen programmer_options:
-    hbox:
-        xalign 0.5
-        ypos 950
-        spacing 10
-        textbutton "Keep Coding":
-            style "game_button"
-            text_style "game_button_text"
-            action [Function(keep_coding), Function(action_time_penalty, extra_time=7)]
-
-        textbutton "Debug Code":
-            style "game_button"
-            text_style "game_button_text"
-            action [Function(test_code), Function(action_time_penalty, extra_time=7)]
 
 screen debug_output:
     frame:
@@ -357,8 +357,7 @@ screen debug_output:
         xsize 1500
         ysize 150
 
-        xpos 1920
-        ypos 800
+        pos (1880, 830)
 
         xmaximum 1500
         ymaximum 150
@@ -395,7 +394,8 @@ label start:
 
     e "Welcome to the Debugging Trail"
 
-    e  "The world is ending" 
+    e  "The world is ending"
+ 
 
     e "It is your job to save the world by creating lifesaving programs"
 
