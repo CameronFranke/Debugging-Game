@@ -41,11 +41,11 @@ init -1 python:
     time_penalty = 0
     time_limit = 0 ## in seconds
     stress = 0
-    base_stress_modifier = 2
+    base_stress_modifier = 5
     stress_per_bug = 10
     break_modifier = 35 ## amount of stress removed by taking a break
     break_duration = 30 ## time penalty in seconds
-    action_duration = 3 ## time that an action takes in seconds
+    action_duration = 1 ## time that an action takes in seconds
 
 
     def load_level():
@@ -58,13 +58,15 @@ init -1 python:
         global remaining
         global status
         global errorMsg
+        global musicFlag 
+        musicFlag = 0
         errorMsg = ""
         status = "playing"
         buggyProg = program["program" + str(level)]
         section_count = 1
         code_section = 0
         stress = 0
-        time_limit += (600 - remaining)
+        time_limit += (960 - remaining)
 
 
     def modify_stress():
@@ -73,6 +75,34 @@ init -1 python:
         if stress > 100:
             stress = 100
         check_wl_status
+        sound_manager()
+
+
+    def sound_manager():
+        global musicFlag
+        if stress < 30:
+            if musicFlag != 1:
+                renpy.music.stop(fadeout=.6)
+                renpy.music.play("Stress Level 1.wav", fadein=.3)                    
+                musicFlag = 1
+                
+        if stress >= 30 and stress < 60:
+            if musicFlag != 2:
+                renpy.music.stop(fadeout=.6)
+                renpy.music.play("Stress Level 2.wav", fadein=.3)
+                musicFlag = 2
+                
+        if stress >= 60 and stress < 85:
+            if musicFlag != 3:
+                renpy.music.stop(fadeout=.6)
+                renpy.music.play("Stress Level 3.wav", fadein=.3)
+                musicFlag = 3
+        
+        if stress >= 85:
+            if musicFlag != 4:
+                renpy.music.stop(fadeout=.6)
+                renpy.music.play("Stress Level 4.wav", fadein=.3)
+                musicFlag = 4
 
     def countdown(st, at, length=0.0):
             global time_penalty
@@ -105,12 +135,20 @@ init -1 python:
         time_penalty += break_duration
         if stress < 0:
             stress = 0
+        sound_manager()
 
     def action_time_penalty(extra_time=0):
         global time_penalty
         time_penalty += (action_duration + extra_time)
+        
+        global stress
+        stress += 2
+        
+        sound_manager()
+        check_wl_status()
 
     def replace_code():
+        sound_manager()
         if "fixes" in  buggyProg[code_section]:
 
             x = 0
@@ -205,6 +243,7 @@ init -1 python:
         current_thought = string.replace("thought : ", "")
 
     def check_wl_status():
+        sound_manager()
         global remaining
         global status
 
@@ -289,7 +328,6 @@ screen fix_menu:
         xalign 0.0
         yalign 0.5
         vbox:
-            ##$action_time_penalty() ## bringing up a fixe menu takes time=action_duration
             $choices = buggyProg[code_section]
             if "fixes" in choices:
                 $s = choices["fixes"]
@@ -388,49 +426,31 @@ screen inner_thought:
 
 
 label start:
-    #instructions to play the game
-    scene bg pentagon
-    with dissolve
-
-    e "Welcome to the Debugging Trail"
-
-    e  "The world is ending"
- 
-
-    e "It is your job to save the world by creating lifesaving programs"
-
-    e "Like any programmer, you will run into bugs."
-
-    e "It is essential that you fix them for human life to continue"
-
     call level1
 
 
 label level1:
-
+    $load_level()
+    $ sound_manager()
+    scene bg pentagon
+    with dissolve
+    e "Welcome to the Debugging Trail"
+    e "The world is ending"
+    e "It is your job to save the world by creating lifesaving programs"
+    e "Like any programmer, you will run into bugs."
+    e "It is essential that you fix them for human life to continue"
+    
     scene bg office
     with dissolve
-    $load_level()
-
     e "To start coding press the 'Keep Coding' button"
-
     e "The code you will write will appear on the screen, but be careful because it may contain bugs"
-
     e "To compile your code press the 'Debug' button. You can do this as many times as you want."
-
     e "Errors will show in the debug console"
-
     e "To fix an error, you can click on line of code that you think needs to be fixed and a list of possible code fixes will pop up"
-
     e "Click the fix that you think is right and it will replace the incorrect code automatically"
-
     e "Beware: Every action you take will cost you time, and every bug the compiler catches will increase your stress"
-
     e "If your stress gets to high or you run out of time, you lose..."
-
-
     $show_all()
-
     jump view_code
 
 
