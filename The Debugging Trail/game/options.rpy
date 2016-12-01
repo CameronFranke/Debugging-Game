@@ -111,20 +111,25 @@ style my_font:
     size 22
 
 style game_button_text:
-    color "#fff"
+    color "#ECEFF1"
     selected_color "#000"
 
 style game_button:
-    background "#006"
+    background Frame("button")
     insensitive_background "#444"
-    hover_background "#00a"
+    hover_background Frame("hover-button")
+    xminimum 250
+    xpadding 20
+    xfill True
+
+style stress_bar_style is bar:
+     background "#DF3238"
 
 style code_line:
     xmaximum 1500
     ymaximum 700
     insensitive_background "#444"
     hover_background "#00a"
-    
 
 ## Preference defaults #########################################################
 
