@@ -17,8 +17,8 @@ init -1 python:
         renpy.show_screen("inner_thought")
 
 init:
-    define e = Character('eileen')
-    image bg office = "office.jpg"
+    define e = Character('Unknown')
+    image bg office = "matrix-bg.jpg"
     image bg pentagon = "Pentagon.jpg"
 
 screen code:
@@ -133,7 +133,7 @@ label level1:
     $ sound_manager()
     scene bg pentagon
     with dissolve
-    e "Welcome to the Debugging Trail"
+    e "Welcome to the Pentagon"
     e "The world is ending"
     e "It is your job to save the world by creating lifesaving programs"
     e "Like any programmer, you will run into bugs."
