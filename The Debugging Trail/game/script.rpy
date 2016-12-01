@@ -179,9 +179,6 @@ label level2:
 
     e "Get to work!"
 
-    hide screen onscreen_timer
-    show screen onscreen_timer
-
     $show_all()
 
     jump view_code
@@ -211,9 +208,6 @@ label level3:
     e "Welcome to level 3"
 
     e "Get to work!"
-
-    hide screen onscreen_timer
-    show screen onscreen_timer
 
     $show_all()
 
