@@ -26,6 +26,8 @@ init python:
     global remaining
     global status
     global errorMsg
+    global last_test_section_id 
+    last_test_section_id = 1
     status = ""
     errorMsg = ""
     remaining = 0
@@ -70,6 +72,8 @@ init python:
             stress = 100
         check_wl_status
         sound_manager()
+        if stress > 70:
+            set_inner_thought("You are stressed! Take a break before you go crazy!")
 
 
     def sound_manager():
@@ -120,16 +124,29 @@ init python:
 
     def keep_coding():
         global section_count
+        global last_test_section_id 
         section_count += 1
-
+        thought = ""
+        if section_count - last_test_section_id >= 2:
+            thought += "Don't forget to test your code as you go! "
+        if stress > 70:
+            thought += ("You are stressed! Take a break before you go crazy! ")
+        if thought != "":
+            set_inner_thought(thought)
+        
     def take_break():
         global stress
         global time_penalty
+        global current_thought 
         stress = stress - break_modifier
         time_penalty += break_duration
         if stress < 0:
             stress = 0
         sound_manager()
+        if stress < 70: 
+            if "You are stressed! Take a break before you go crazy! " in current_thought: 
+                set_inner_thought("")
+        
 
     def action_time_penalty(extra_time=0):
         global time_penalty
@@ -143,6 +160,8 @@ init python:
 
     def replace_code():
         sound_manager()
+        if stress > 70:
+            set_inner_thought("You are stressed! Take a break before you go crazy! ")
         if "fixes" in  buggyProg[code_section]:
 
             x = 0
@@ -173,6 +192,8 @@ init python:
 
     def test_code():
         global errorMsg
+        global last_test_section_id 
+        last_test_section_id = section_count
 
         errorIndices = []
         for line in buggyProg[0: (section_count * lines_per_section)]:
@@ -181,6 +202,9 @@ init python:
         create_error_msg(errorIndices)
 
         check_wl_status()
+        if stress > 70:
+            set_inner_thought("You are stressed! Take a break before you go crazy! ")
+        
 
 
     def create_error_msg(indices):
