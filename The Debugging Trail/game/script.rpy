@@ -20,6 +20,10 @@ init:
     define e = Character('Unknown')
     image bg office = "matrix-bg.jpg"
     image bg pentagon = "Pentagon.jpg"
+    image bg code_inst = "code_inst.png"
+    image bg compile_inst = "compile_inst.png"
+    image bg take_break = "take-break.png"
+    image bg fix_inst = "fix_inst.png"
 
 screen code:
     vbox:
@@ -139,16 +143,27 @@ label level1:
     e "Like any programmer, you will run into bugs."
     e "It is essential that you fix them for human life to continue"
 
-    scene bg office
+    scene bg code_inst
     with dissolve
-    e "To start coding press the 'Keep Coding' button"
+    e "To start coding press the 'Code' button"
     e "The code you will write will appear on the screen, but be careful because it may contain bugs"
-    e "To compile your code press the 'Debug' button. You can do this as many times as you want."
+
+    scene bg compile_inst
+    e "To check for bugs, press the 'Compile' button"
     e "Errors will show in the debug console"
+
+    scene bg fix_inst
     e "To fix an error, you can click on line of code that you think needs to be fixed and a list of possible code fixes will pop up"
     e "Click the fix that you think is right and it will replace the incorrect code automatically"
-    e "Beware: Every action you take will cost you time, and every bug the compiler catches will increase your stress"
+
+    scene bg take_break
+    e "You will notice a stress bar at the top right corner of the screen"
     e "If your stress gets to high or you run out of time, you lose..."
+    e "To relieve some of your stress, press the 'Take a break' button"
+
+    scene bg office
+    e "Beware: Every action you take will cost you time, and every bug the compiler catches will increase your stress"
+
     $show_all()
     jump view_code
 
